@@ -98,7 +98,227 @@ namespace TestProject1
             );
 
         }
+        // testing Character class
+        //testing character.move
 
+  
+
+        [Fact]
+        public void TestMoveNorth()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.North;
+            character.move(2);
+            var result = character.position;
+            Assert.Equal((0, 2), result); 
+            Assert.False(character.grid.cells[0, 0].isOccupied); 
+            Assert.True(character.grid.cells[0, 2].isOccupied);
+        }
+
+        [Fact]
+        public void TestMoveEast()
+        {
+            Character character = new Character();
+            character.move(2);
+            var result = character.position;
+            Assert.Equal((2, 0), result);
+            Assert.False(character.grid.cells[0, 0].isOccupied);
+
+        }
+        [Fact]
+        public void TestMoveSouth()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.South;
+            character.position = (2, 2);
+            character.grid.occupyCell(character.grid.cells[2, 2]);
+            character.move(2);
+            var result = character.position;
+            Assert.Equal((2,0), result);
+            Assert.False(character.grid.cells[2,2].isOccupied);
+            Assert.True(character.grid.cells[2,0].isOccupied);
+
+        }
+        [Fact]
+        public void TestMoveWest()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.West;
+            character.position = (2, 2);
+            character.grid.occupyCell(character.grid.cells[2, 2]);
+            character.move(2);
+            var result = character.position;
+            Assert.Equal((0, 2), result);
+            Assert.False(character.grid.cells[2,2].isOccupied);
+            Assert.True(character.grid.cells[0, 2].isOccupied);
+        }
+
+        [Fact]
+        public void TestMoveNorthOutOfBounds()
+        {
+
+            Character character = new Character();
+            character.currentDirection = Direction.North;
+            Assert.Throws<IndexOutOfRangeException>(() =>
+            character.move(5)
+           );
+            var result = character.position;
+            Assert.Equal((0, 0), result);
+
+        }
+
+        [Fact]
+        public void TestMoveEastOutOfBounds()
+        {
+
+            Character character = new Character();
+            character.currentDirection = Direction.East;
+            Assert.Throws<IndexOutOfRangeException>(() =>
+            character.move(5)
+           );
+            var result = character.position;
+            Assert.Equal((0, 0), result);
+        }
+            [Fact]
+            public void TestMoveSouthOutOfBounds()
+            {
+
+                Character character = new Character();
+                character.currentDirection = Direction.South;
+                Assert.Throws<IndexOutOfRangeException>(() =>
+                character.move(5)
+               );
+            var result = character.position;
+            Assert.Equal((0, 0), result);
+        }
+
+        [Fact]
+        public void TestMoveWestOutOfBounds()
+        {
+
+            Character character = new Character();
+            character.currentDirection = Direction.West;
+            Assert.Throws<IndexOutOfRangeException>(() =>
+            character.move(5)
+           );
+            var result = character.position;    
+            Assert.Equal((0,0), result);
+        }
+
+        //testing character.turn
+
+        [Fact]
+
+        public void TestTurnRightNorthtoEast()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.North;
+            character.turn("right");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.East,result);
+        }
+        [Fact]
+        public void TestTurnRightEastoSouth()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.East;
+            character.turn("right");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.South, result);
+        }
+        [Fact]
+        public void TestTurnRightSouthtoWest()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.South;
+            character.turn("right");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.West, result);
+        }
+
+        [Fact]
+        public void TestTurnRightWesttoNorth()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.West;
+            character.turn("right");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.North, result);
+        }
+        [Fact]
+        public void TestTurnLeftNorthToWest()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.North;
+            character.turn("left");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.West, result);
+        }
+
+        [Fact]
+        public void TestTurnLeftWestToSouth()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.West;
+            character.turn("left");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.South, result);
+        }
+
+        [Fact]
+        public void TestTurnLeftSouthToEast()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.South;
+            character.turn("left");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.East, result);
+        }
+
+        [Fact]
+        public void TestTurnLeftEastToNorth()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.East;
+            character.turn("left");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.North, result);
+        }
+
+        //multiple turns
+
+        [Fact]
+        public void TestTurnMultipleRight()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.North;
+            character.turn("right");
+            character.turn("right");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.South, result);
+        }
+        [Fact]
+        public void TestTurnMultipleLeft()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.North;
+            character.turn("left");
+            character.turn("left");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.South, result);
+        }
+
+        [Fact]
+        public void TestTurnLeftAndRight()
+        {
+            Character character = new Character();
+            character.currentDirection = Direction.North;
+            character.turn("right");
+            character.turn("left");
+            character.turn("left");
+            var result = character.currentDirection;
+            Assert.Equal(Direction.West, result);
+        }
     }
 
 
