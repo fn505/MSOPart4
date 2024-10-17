@@ -10,7 +10,7 @@ namespace TestProject1
     {
         //tests for grid.outOfBounds
         [Fact]
-      public void TestCellWithinBounds()
+        public void TestCellWithinBounds()
         {
             Grid grid = new Grid();
             Cell cell = new Cell(4, 4, false);
@@ -41,25 +41,25 @@ namespace TestProject1
             Grid grid = new Grid();
             Cell cell = new Cell(-1, -2, false);
             bool result = grid.outOfBounds(cell);
-            Assert.True(result);    
+            Assert.True(result);
         }
 
         // tests for grid.occupyCell
         [Fact]
-          public void TestOccupyingCellSuccess()
-          {
+        public void TestOccupyingCellSuccess()
+        {
             Grid grid = new Grid();
-            grid.occupyCell(grid.cells[2,3]);
+            grid.occupyCell(grid.cells[2, 3]);
             Assert.True(grid.cells[2, 3].isOccupied);
-           }
+        }
 
         [Fact]
-        public void TestOccupyingOccupiedCell() 
+        public void TestOccupyingOccupiedCell()
         {
             Grid grid = new Grid();
             Assert.Throws<InvalidOperationException>(() =>
-            grid.occupyCell(grid.cells[0,0])
-            ) ;
+            grid.occupyCell(grid.cells[0, 0])
+            );
         }
 
         [Fact]
@@ -75,8 +75,8 @@ namespace TestProject1
         public void TestClearCellSuccess()
         {
             Grid grid = new Grid();
-            grid.clearCell(grid.cells[0,0]);
-            Assert.False(grid.cells[0,0].isOccupied);
+            grid.clearCell(grid.cells[0, 0]);
+            Assert.False(grid.cells[0, 0].isOccupied);
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace TestProject1
         // testing Character class
         //testing character.move
 
-  
+
 
         [Fact]
         public void TestMoveNorth()
@@ -110,8 +110,8 @@ namespace TestProject1
             character.currentDirection = Direction.North;
             character.move(2);
             var result = character.position;
-            Assert.Equal((0, 2), result); 
-            Assert.False(character.grid.cells[0, 0].isOccupied); 
+            Assert.Equal((0, 2), result);
+            Assert.False(character.grid.cells[0, 0].isOccupied);
             Assert.True(character.grid.cells[0, 2].isOccupied);
         }
 
@@ -134,9 +134,9 @@ namespace TestProject1
             character.grid.occupyCell(character.grid.cells[2, 2]);
             character.move(2);
             var result = character.position;
-            Assert.Equal((2,0), result);
-            Assert.False(character.grid.cells[2,2].isOccupied);
-            Assert.True(character.grid.cells[2,0].isOccupied);
+            Assert.Equal((2, 0), result);
+            Assert.False(character.grid.cells[2, 2].isOccupied);
+            Assert.True(character.grid.cells[2, 0].isOccupied);
 
         }
         [Fact]
@@ -149,7 +149,7 @@ namespace TestProject1
             character.move(2);
             var result = character.position;
             Assert.Equal((0, 2), result);
-            Assert.False(character.grid.cells[2,2].isOccupied);
+            Assert.False(character.grid.cells[2, 2].isOccupied);
             Assert.True(character.grid.cells[0, 2].isOccupied);
         }
 
@@ -179,15 +179,15 @@ namespace TestProject1
             var result = character.position;
             Assert.Equal((0, 0), result);
         }
-            [Fact]
-            public void TestMoveSouthOutOfBounds()
-            {
+        [Fact]
+        public void TestMoveSouthOutOfBounds()
+        {
 
-                Character character = new Character();
-                character.currentDirection = Direction.South;
-                Assert.Throws<IndexOutOfRangeException>(() =>
-                character.move(5)
-               );
+            Character character = new Character();
+            character.currentDirection = Direction.South;
+            Assert.Throws<IndexOutOfRangeException>(() =>
+            character.move(5)
+           );
             var result = character.position;
             Assert.Equal((0, 0), result);
         }
@@ -201,8 +201,8 @@ namespace TestProject1
             Assert.Throws<IndexOutOfRangeException>(() =>
             character.move(5)
            );
-            var result = character.position;    
-            Assert.Equal((0,0), result);
+            var result = character.position;
+            Assert.Equal((0, 0), result);
         }
 
         //testing character.turn
@@ -215,7 +215,7 @@ namespace TestProject1
             character.currentDirection = Direction.North;
             character.turn("right");
             var result = character.currentDirection;
-            Assert.Equal(Direction.East,result);
+            Assert.Equal(Direction.East, result);
         }
         [Fact]
         public void TestTurnRightEastoSouth()
@@ -318,6 +318,99 @@ namespace TestProject1
             character.turn("left");
             var result = character.currentDirection;
             Assert.Equal(Direction.West, result);
+        }
+
+
+        // test programReader.readFile
+
+        [Fact]
+        public void TestReadFile()
+        {
+            ProgramReader programReader = new ProgramReader();
+            programReader.ReadFile();
+
+            var result = programReader.lines;
+            Assert.Equal("Move 10", result[0]);
+            Assert.Equal("Turn right", result[1]);
+            Assert.Equal("Move 10", result[2]);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => { Assert.Equal("", result[3]); });
+        }
+        //testing programReader.parseFile
+        [Fact]
+        public void TestParseFile()
+        {
+            ProgramReader programReader = new ProgramReader();
+            programReader.ReadFile();
+
+            programReader.ParseFile(programReader.lines);
+            var result = programReader.commandList;
+
+            var moveCommand1 = (MoveCommand)result[0];
+            var turnCommand = (TurnCommand)result[1];
+            var moveCommand2 = (MoveCommand)result[2];
+
+            Assert.Equal(3, result.Count);
+
+            Assert.IsType<MoveCommand>(result[0]);
+            Assert.Equal(10, moveCommand1.Getsteps());
+            Assert.IsType<TurnCommand>(result[1]);
+            Assert.Equal("right", turnCommand.GetTurnDirection());
+            Assert.IsType<MoveCommand>(result[2]);
+            Assert.Equal(10, moveCommand2.Getsteps());
+
+
+        }
+
+        //trying to execute a command out of the list
+
+        [Fact]
+        public void TestExecuteCommandMoveCommand()
+        {
+            ProgramReader pr = new ProgramReader();
+            Character character = new Character();
+            Grid grid = new Grid();
+            pr.ReadFile();
+            pr.ParseFile(pr.lines);
+            var execommand = pr.commandList[0];
+            execommand.execute(character);
+            var result = character.position;
+            Assert.Equal((2, 0), result);
+
+        }
+
+
+        [Fact]
+        public void TestExecuteCommandTurnCommand()
+        {
+            ProgramReader pr = new ProgramReader();
+            Character character = new Character();
+            Grid grid = new Grid();
+            pr.ReadFile();
+            pr.ParseFile(pr.lines);
+            var execommand = pr.commandList[1];
+            execommand.execute(character);
+            var result = character.currentDirection;
+            Assert.Equal(Direction.North, result);
+
+        }
+
+        [Fact]
+        public void TestExecuteCommandList()
+        {
+            ProgramReader pr = new ProgramReader();
+            Character character = new Character();
+            Grid grid = new Grid();
+            pr.ReadFile();
+            pr.ParseFile(pr.lines);
+
+            foreach(Command c in pr.commandList) { c.execute(character); }
+            var result1 = character.position;
+            Assert.Equal((2,2), result1);
+            var result2 = character.currentDirection;
+            Assert.Equal(Direction.North, result2);
+
+
         }
     }
 
