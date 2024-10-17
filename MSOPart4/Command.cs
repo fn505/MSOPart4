@@ -17,10 +17,17 @@ namespace MSOPart4
     }
 
 
-    public class moveCommand : Command
+    public class MoveCommand : Command
     {
         int steps;
-
+        public MoveCommand(int steps)
+        {
+            this.steps = steps;
+        }
+        public int Getsteps()
+        {
+            return steps;
+        }
 
         public override bool isValid()
         {
@@ -32,52 +39,83 @@ namespace MSOPart4
 
         public override void execute(Character character)
         {
-            character.move(steps);
+            if (isValid())
+                character.move(steps);
 
         }
 
-        public class turnCommand : Command
+        public string toString()
         {
-            public string turnDirection;
-            public override bool isValid()
-            {
-                if (turnDirection == "left" || turnDirection == "right")
-                    return true;
-                return false;
-            }
+            return $"Move {steps}";
+        }
+    }
 
-            public override void execute(Character character)
-            {
+    public class TurnCommand : Command
+    {
+        public string turnDirection;
+
+        public TurnCommand(string turnDirection)
+        {
+            this.turnDirection = turnDirection;
+        }
+
+        public override bool isValid()
+        {
+            if (turnDirection == "left" || turnDirection == "right")
+                return true;
+            return false;
+        }
+
+        public string GetTurnDirection()
+        {
+            return turnDirection;
+        }
+
+        public override void execute(Character character)
+        {
+            if (isValid())
                 character.turn(turnDirection);
 
-            }
-
+        }
+        public string toString()
+        {
+            return $"Turn {turnDirection}";
         }
 
-        public class repeatCommand : Command
+
+    }
+
+    public class RepeatCommand : Command
+    {
+        int count;
+        public List<Command> commandList = new List<Command>();
+        public RepeatCommand(int count, List<Command> commandList)
         {
-            int count;
-            public List<Command> commandList;
-            public override bool isValid()
+            this.count = count;
+            this.commandList = commandList;
+        }
+
+
+        public override bool isValid()
+        {
+            if (count < 0)
+                return false;
+            return true;
+        }
+
+
+        public override void execute(Character character)
+        {
+            foreach (Command command in commandList)
             {
-                if (count < 0)
-                    return false;
-                return true;
+                command.execute(character);
             }
 
-            //waarschijnlijk veranderen
-            public override void execute(Character character)
-            {
-                foreach (Command command in commandList)
-                {
-                    command.execute(character);
-                }
-
-
-            }
 
         }
 
     }
+
+
 
 }
