@@ -23,32 +23,32 @@ namespace MSOPart4
 
 
         public override bool isValid()
-        { 
+        {
             if (steps < 0)
                 return false;
             return true;
-        
+
         }
 
         public override void execute(Character character)
         {
-
+            character.move(steps);
 
         }
 
         public class turnCommand : Command
         {
-            string turnDirection;
+            public string turnDirection;
             public override bool isValid()
             {
-                if (turnDirection == "left" ||  turnDirection ==  "right")
+                if (turnDirection == "left" || turnDirection == "right")
                     return true;
                 return false;
             }
 
             public override void execute(Character character)
             {
-
+                character.turn(turnDirection);
 
             }
 
@@ -57,15 +57,21 @@ namespace MSOPart4
         public class repeatCommand : Command
         {
             int count;
+            public List<Command> commandList;
             public override bool isValid()
             {
-                if (count <0)
+                if (count < 0)
                     return false;
                 return true;
             }
 
+            //waarschijnlijk veranderen
             public override void execute(Character character)
             {
+                foreach (Command command in commandList)
+                {
+                    command.execute(character);
+                }
 
 
             }
