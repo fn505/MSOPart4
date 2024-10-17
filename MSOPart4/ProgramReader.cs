@@ -71,12 +71,23 @@ namespace MSOPart4
                     case "Repeat":
                         int count = Int32.Parse(parts[1]);
                         List<Command> subCommands = new List<Command>();
-                        var newRepeatCommand = commandFactory.createRepeatCommand(count, subCommands);
                         //next line start with tab -> 
 
 
+                        int subIndex = lines.IndexOf(line) + 1;
+                        while( subIndex < lines.Count && lines[subIndex].StartsWith("\t"))
+                        {
+                            var subCommandLine = lines[subIndex].Trim();
+                            var subParts = subCommandLine.Split(" ");
 
+                            Command subCommand = CreateSubCommand(subParts);
 
+                            subCommands.Add(subCommand);
+                            subIndex++;
+
+                        }
+                        var newRepeatCommand = commandFactory.createRepeatCommand(count, subCommands);
+                        commandList.Add(newRepeatCommand);
                         break;
 
                 }
@@ -85,20 +96,33 @@ namespace MSOPart4
 
         }
 
-        //public void ParseSubCommands(List<>)
-        //{
-           
-        //}
-       
-
-
-        public void DisplayCommand()
+        public Command CreateSubCommand(string[] parts)
         {
-
-            foreach(Command c in commandList)
+            if (parts[0] == "Move")
             {
-                Console.WriteLine(c.ToString());
+                int steps = Int32.Parse(parts[1]);
+                var newMoveCommand = commandFactory.createMoveCommand(steps);
+                return newMoveCommand;
             }
+            else if (parts[0] == "Turn")
+            {
+                string turnDirection = parts[1];
+                var newTurnCommand = commandFactory.createTurnCommand(turnDirection);
+                return newTurnCommand;
+            }
+            else
+            {
+                throw new Exception("Error : Unknown Command");
+            }
+
         }
+
+        public void Display(List<Command> commands) 
+        { 
+
+            foreach (var command in commands) { Console.WriteLine(command.ToString()); }
+        
+        }
+
     }
 }

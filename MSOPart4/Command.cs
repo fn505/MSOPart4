@@ -106,10 +106,16 @@
 
                 public override void execute(Character character)
                 {
-                    foreach (Command command in commandList)
+
+                    while (count != 0)
                     {
-                        command.execute(character);
-                    }
+                        foreach (Command command in commandList)
+                        {
+                            command.execute(character);
+                        }
+                        count--;
+                    }  
+
 
 
                 }
