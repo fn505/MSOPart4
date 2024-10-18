@@ -44,10 +44,11 @@ namespace MSOPart4
             }
         }
 
-        public void ParseFile(List<string> lines)
+        public void ParseFile(List<string> lines, List<Command> commands)
         {
-            foreach (string line in lines)
+            for (int lineIndex = 0; lineIndex < lines.Count; lineIndex++)
             {
+                var line = lines[lineIndex];
                 var parts = line.Split(' ');
                 var firstWord = parts[0];
 
@@ -56,54 +57,44 @@ namespace MSOPart4
                     case "Move":
                         int steps = Int32.Parse(parts[1]);
                         var newMoveCommand = commandFactory.createMoveCommand(steps);
-                        commandList.Add(newMoveCommand);
+                        commands.Add(newMoveCommand);
                         break;
+
                     case "Turn":
                         string turnDirection = parts[1];
                         var newTurnCommand = commandFactory.createTurnCommand(turnDirection);
-                        commandList.Add(newTurnCommand);
+                        commands.Add(newTurnCommand);
                         break;
+
                     case "Repeat":
                         int count = Int32.Parse(parts[1]);
                         List<Command> subCommands = new List<Command>();
-                        int subIndex = lines.IndexOf(line) + 1;
-                        while( subIndex < lines.Count && lines[subIndex].StartsWith("\t"))
-                        {
-                            var subCommandLine = lines[subIndex].Trim();
-                            var subParts = subCommandLine.Split(" ");
-
-                            Command subCommand = CreateSubCommand(subParts);
-
-                            subCommands.Add(subCommand);
-                            subIndex++;
-
-                        }
-                        var newRepeatCommand = commandFactory.createRepeatCommand(count, subCommands);
-                        commandList.Add(newRepeatCommand);
+                        List<string> subLines = CollectSubLines(lines, lineIndex + 1);
+                        ParseFile(subLines, subCommands);
+                        var repeatCommand = commandFactory.createRepeatCommand(count, subCommands);
+                        commands.Add(repeatCommand);
+                        lineIndex += subLines.Count; 
                         break;
-
                 }
             }
         }
 
-        public Command CreateSubCommand(string[] parts)
+        private List<string> CollectSubLines(List<string> lines, int startLine)
         {
-            if (parts[0] == "Move")
+            List<string> subLines = new List<string>();
+            int i = startLine;
+
+            while (i < lines.Count && lines[i].StartsWith("\t")) 
             {
-                int steps = Int32.Parse(parts[1]);
-                var newMoveCommand = commandFactory.createMoveCommand(steps);
-                return newMoveCommand;
+                subLines.Add(lines[i].TrimStart('\t')); 
+                i++;
             }
-            else if (parts[0] == "Turn")
-            {
-                string turnDirection = parts[1];
-                var newTurnCommand = commandFactory.createTurnCommand(turnDirection);
-                return newTurnCommand;
-            }
-            else
-            {
-                throw new Exception("Error : Unknown Command");
-            }
+
+            return subLines;
         }
+
+
+  
+        
     }
 }

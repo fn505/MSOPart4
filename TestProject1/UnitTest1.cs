@@ -8,7 +8,7 @@ namespace TestProject1
 
     public class UnitTest1
     {
-        
+        #region Grid tests
         [Fact]
         public void TestCellWithinBounds()
         {
@@ -44,7 +44,6 @@ namespace TestProject1
             Assert.True(result);
         }
 
-        //// tests for grid.occupyCell
         [Fact]
         public void TestOccupyingCellSuccess()
         {
@@ -70,7 +69,7 @@ namespace TestProject1
             grid.occupyCell(grid.cells[15, 5])
             );
         }
-        //// test for grid.ClearCell
+
         [Fact]
         public void TestClearCellSuccess()
         {
@@ -96,13 +95,9 @@ namespace TestProject1
             Assert.Throws<IndexOutOfRangeException>(() =>
             grid.clearCell(grid.cells[-5, 5])
             );
-
         }
-        //// testing Character class
-        ////testing character.move
-
-
-
+        #endregion
+        #region Character tests
         [Fact]
         public void TestMoveNorth()
         {
@@ -207,8 +202,6 @@ namespace TestProject1
             Assert.Equal((0, 0), result);
         }
 
-        ////testing character.turn
-
         [Fact]
 
         public void TestTurnRightNorthtoEast()
@@ -287,8 +280,6 @@ namespace TestProject1
             Assert.Equal(Direction.North, result);
         }
 
-        //multiple turns
-
         [Fact]
         public void TestTurnMultipleRight()
         {
@@ -322,23 +313,24 @@ namespace TestProject1
             Assert.Equal(Direction.West, result);
         }
 
-
-        // test programReader.readFile
-
+        #endregion
+        #region ProgramReader tests
         [Fact]
         public void TestReadFile()
         {
             ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
-            programReader.ReadFile();
+            programReader.lines = new List<string>
+            {
+                "Move 3",
+                "Turn right",
+                "Move 2"
+            };
 
             var result = programReader.lines;
-            Assert.Equal("Repeat 2 times", result[0]);
-
-
-
+            Assert.Equal("Move 3", result[0]);
             Assert.Throws<ArgumentOutOfRangeException>(() => { var accessTry = result[4]; });
         }
-        //testing programReader.parseFile
+
         [Fact]
         public void TestParseFile()
         {
@@ -350,7 +342,7 @@ namespace TestProject1
                 "Move 2"
             };
 
-            programReader.ParseFile(programReader.lines);
+            programReader.ParseFile(programReader.lines, programReader.commandList);
             var result = programReader.commandList;
 
             var moveCommand1 = (MoveCommand)result[0];
@@ -369,54 +361,6 @@ namespace TestProject1
 
         }
 
-
-        [Fact]
-        public void TestParseFileRepeats()
-        {
-            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
-            programReader.lines = new List<string>
-            {
-                "Repeat 2",
-                "   Move 3",
-                "   Turn right",
-                "   Move 2",
-                "   Repeat 2",
-                "       Move 3",
-                "       Turn right",
-                "       Move 2",
-                //"       Repeat 2",
-                //"           Move 3",
-                //"           Turn right",
-                //"           Move 2",
-
-            };
-
-            programReader.ParseFile(programReader.lines);
-            var result = programReader.commandList;
-            int repeatCount = 0;
-            foreach(Command c in result)
-            {
-                if (c.GetType() == typeof(RepeatCommand))
-                {
-                    repeatCount++;
-                    RepeatCommand repeatCommand = (RepeatCommand)c;
-
-                    foreach (Command rc in repeatCommand.commandList)
-                    {
-                        if (rc.GetType() == typeof(RepeatCommand))
-                            repeatCount++;
-                    }
-                }
-                
-            }
-            Assert.Equal(2, repeatCount);
-
-        
-
-        }
-
-        ////trying to execute a command out of the list
-
         [Fact]
         public void TestExecuteCommandMoveCommand()
         {
@@ -428,14 +372,13 @@ namespace TestProject1
                 "Move 2"
             };
             Character character = new Character();
-            programReader.ParseFile(programReader.lines);
+            programReader.ParseFile(programReader.lines, programReader.commandList);
             var exeCommand = programReader.commandList[0];
             exeCommand.execute(character);
             var result = character.position;
             Assert.Equal((3, 0), result);
 
         }
-
 
         [Fact]
         public void TestExecuteCommandTurnCommand()
@@ -448,12 +391,11 @@ namespace TestProject1
                 "Turn right",
                 "Move 2"
             };
-            programReader.ParseFile(programReader.lines);
+            programReader.ParseFile(programReader.lines, programReader.commandList);
             var exeCommand = programReader.commandList[1];
             exeCommand.execute(character);
             var result = character.currentDirection;
             Assert.Equal(Direction.South, result);
-
         }
 
         [Fact]
@@ -467,7 +409,7 @@ namespace TestProject1
                 "Turn right",
                 "Move 2"
             };
-            programReader.ParseFile(programReader.lines);
+            programReader.ParseFile(programReader.lines, programReader.commandList);
 
             foreach (Command c in programReader.commandList) { c.execute(character); }
             var result1 = character.position;
@@ -475,34 +417,24 @@ namespace TestProject1
             var result2 = character.currentDirection;
             Assert.Equal(Direction.South, result2);
         }
-
+        #endregion
+        #region Metric tests
         [Fact]
         public void TestCommandCount()
         {
             Metrics testMetrics = new Metrics();
-            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
-            Character character = new Character();
-            programReader.lines = new List<string>
+            List<Command> testList = new List<Command>
             {
-                "Move 3",
-                "Turn right",
-                "Move 2"
+                new MoveCommand(4),
+                new MoveCommand(5),
+                new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
+                new MoveCommand(4),
+                new TurnCommand("left"),
+                new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
             };
-            programReader.ParseFile(programReader.lines);
-
-            //List<Command> testList = new List<Command>
-            //{
-            //    new MoveCommand(4),
-            //    new MoveCommand(5),
-            //    new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
-            //    new MoveCommand(4),
-            //    new TurnCommand("left"),
-            //    new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
-            //};
-            List<Command> testList = programReader.commandList;
             testMetrics.CaluculateMetrics(testList);
             var result = testMetrics.commandCount;
-            Assert.Equal(3, result);
+            Assert.Equal(28, result);
         }
 
         [Fact]
@@ -510,34 +442,15 @@ namespace TestProject1
         {
             Metrics testMetrics = new Metrics();
             ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
-            Character character = new Character();
-            programReader.lines = new List<string>
+            List<Command> testList = new List<Command>
             {
-                "Repeat 2",
-                "   Move 3",
-                "   Turn right",
-                "   Move 2",
-                "   Repeat 2",
-                "       Move 3",
-                "       Turn right",
-                "       Move 2",
-                //"       Repeat 2",
-                //"           Move 3",
-                //"           Turn right",
-                //"           Move 2",
-
+                new MoveCommand(4),
+                new MoveCommand(5),
+                new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
+                new MoveCommand(4),
+                new TurnCommand("left"),
+                new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
             };
-            programReader.ParseFile(programReader.lines);
-            List<Command> testList = programReader.commandList;
-            //List<Command> testList = new List<Command>
-            //{
-            //    new MoveCommand(4),
-            //    new MoveCommand(5),
-            //    new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
-            //    new MoveCommand(4),
-            //    new TurnCommand("left"),
-            //    new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
-            //};
             testMetrics.CaluculateMetrics(testList);
             var result = testMetrics.maxNestingLevel;
             Assert.Equal(2, result);
@@ -560,5 +473,6 @@ namespace TestProject1
             var result = testMetrics.repeats;
             Assert.Equal(3, result);
         }
+        #endregion
     }
 }

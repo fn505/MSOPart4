@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace MSOPart4
     {
         public abstract bool isValid();
         public abstract void execute(Character character);
+        public abstract string toString();
 
 
     }
@@ -45,9 +47,9 @@ namespace MSOPart4
 
         }
 
-        public string toString()
+        public override string toString()
         {
-            return $"Move {steps}";
+            return $"Move {steps} ";
         }
     }
 
@@ -78,9 +80,9 @@ namespace MSOPart4
                 character.turn(turnDirection);
         }
 
-        public string toString()
+        public override string toString()
         {
-            return $"Turn {turnDirection}";
+            return $"Turn {turnDirection} ";
         }
     }
 
@@ -107,7 +109,7 @@ namespace MSOPart4
         public override void execute(Character character)
         {
 
-            while (count != 0)
+            while (count > 0)
             {
                 foreach (Command command in commandList)
                 {
@@ -117,6 +119,30 @@ namespace MSOPart4
             }
         }
 
+        public override string toString()
+        {
+            
+           
+            List<string> list = new List<string>();
+  
+            for(int i = 0; i<count; i++)
+            {
+                List<string> tempList = new List<string>();
+                
+                foreach (Command command in commandList)
+                {
+                    string temp = command.toString().Trim();
+                    tempList.Add(temp);
+
+
+                }
+                list.Add(string.Join(", ", tempList));
+            }
+
+
+            return string.Join(", ", list);
+        }
+       
     }
 
 
