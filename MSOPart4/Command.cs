@@ -14,7 +14,7 @@
 
 
 
-        }
+         }
 
 
         public class MoveCommand : Command
@@ -24,34 +24,34 @@
             {
                 this.steps = steps;
             }
-        public int Getsteps()
-        {
-            return steps;
-        }
-
-        public override bool isValid()
+            public int Getsteps()
             {
-                if (steps < 0)
-                    return false;
-                return true;
-
+                return steps;
             }
 
-            public override void execute(Character character)
-            {
-                if(isValid())
-                character.move(steps);
+            public override bool isValid()
+                {
+                    if (steps < 0)
+                        return false;
+                    return true;
 
-            }
+                }
 
-        public string toString()
+                public override void execute(Character character)
+                {
+                    if(isValid())
+                    character.move(steps);
+
+                }
+
+                public string toString()
+                {
+                    return $"Move {steps}"; 
+                }
+        }
+
+        public class TurnCommand : Command
         {
-            return $"Move {steps}"; 
-        }
-        }
-
-            public class TurnCommand : Command
-            {
             public string turnDirection;
 
             public TurnCommand(string turnDirection)
@@ -59,69 +59,67 @@
                 this.turnDirection = turnDirection;
             }
 
-                public override bool isValid()
-                {
-                    if (turnDirection == "left" || turnDirection == "right")
-                        return true;
-                    return false;
-                }
+            public override bool isValid()
+            {
+                if (turnDirection == "left" || turnDirection == "right")
+                    return true;
+                return false;
+            }
 
-                public string GetTurnDirection()
-              {
+            public string GetTurnDirection()
+            {
                 return turnDirection;
-              }
+            }
 
-        public override void execute(Character character)
-                {
-                   if (isValid())
+            public override void execute(Character character)
+            {
+                if (isValid())
                     character.turn(turnDirection);
+            }
 
-                }
-        public string toString()
-        {
-            return $"Turn {turnDirection}";
+            public string toString()
+            {
+                return $"Turn {turnDirection}";
+            }
+
         }
 
-            
-    }
-
-            public class RepeatCommand : Command
-            {
-                int count;
-               public List<Command> commandList = new List<Command>();
+        public class RepeatCommand : Command
+        {
+            int count;
+            public List<Command> commandList = new List<Command>();
             public RepeatCommand(int count, List<Command> commandList)
             {
                 this.count = count;
                 this.commandList = commandList;
             }
-    
-
-                public override bool isValid()
-                {
-                    if (count < 0)
-                        return false;
-                    return true;
-                }
 
 
-                public override void execute(Character character)
-                {
-
-                    while (count != 0)
-                    {
-                        foreach (Command command in commandList)
-                        {
-                            command.execute(character);
-                        }
-                        count--;
-                    }  
-
-
-
-                }
-
+            public override bool isValid()
+            {
+                if (count < 0)
+                    return false;
+                return true;
             }
 
-    
+
+            public override void execute(Character character)
+            {
+
+                while (count != 0)
+                {
+                    foreach (Command command in commandList)
+                    {
+                        command.execute(character);
+                    }
+                    count--;
+                }
+            }
+
+        }
+
+
+
+
 
     }

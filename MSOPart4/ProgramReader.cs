@@ -12,8 +12,8 @@ namespace MSOPart4
     {
        public string source;
        public  List<string> lines;
-        public List<Command> commandList;
-        public CommandFactory commandFactory;
+       public List<Command> commandList;
+       public CommandFactory commandFactory;
 
        public  ProgramReader(string source)
         {
@@ -40,13 +40,8 @@ namespace MSOPart4
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Unexpected error: {e.Message}");
+                Console.WriteLine($"Error: {e.Message}");
             }
-            finally
-            {
-                Console.WriteLine("Executing finally block.");
-            }
-
         }
 
         public void ParseFile(List<string> lines)
@@ -71,9 +66,6 @@ namespace MSOPart4
                     case "Repeat":
                         int count = Int32.Parse(parts[1]);
                         List<Command> subCommands = new List<Command>();
-                        //next line start with tab -> 
-
-
                         int subIndex = lines.IndexOf(line) + 1;
                         while( subIndex < lines.Count && lines[subIndex].StartsWith("\t"))
                         {
@@ -92,8 +84,6 @@ namespace MSOPart4
 
                 }
             }
-
-
         }
 
         public Command CreateSubCommand(string[] parts)
@@ -114,15 +104,6 @@ namespace MSOPart4
             {
                 throw new Exception("Error : Unknown Command");
             }
-
         }
-
-        public void Display(List<Command> commands) 
-        { 
-
-            foreach (var command in commands) { Console.WriteLine(command.ToString()); }
-        
-        }
-
     }
 }
