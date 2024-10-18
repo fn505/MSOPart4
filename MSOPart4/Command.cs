@@ -12,8 +12,6 @@ namespace MSOPart4
         public abstract bool isValid();
         public abstract void execute(Character character);
 
-
-
     }
 
 
@@ -87,7 +85,7 @@ namespace MSOPart4
 
     public class RepeatCommand : Command
     {
-        int count;
+        public int count;
         public List<Command> commandList = new List<Command>();
         public RepeatCommand(int count, List<Command> commandList)
         {

@@ -321,7 +321,60 @@ namespace TestProject1
         }
     }
 
+    public class UnitTestMetrics
+    {
+        [Fact]
+        public void TestCommandCount()
+        {
+            Metrics testMetrics = new Metrics();
+            List<Command> testList = new List<Command>
+            {
+                new MoveCommand(4),
+                new MoveCommand(5),
+                new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
+                new MoveCommand(4),
+                new TurnCommand("left"),
+                new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
+            };
+            testMetrics.CaluculateMetrics(testList);
+            var result = testMetrics.commandCount;
+            Assert.Equal(28, result);
+        }
 
+        [Fact]
+        public void TestMaxNestingLevel()
+        {
+            Metrics testMetrics = new Metrics();
+            List<Command> testList = new List<Command>
+            {
+                new MoveCommand(4),
+                new MoveCommand(5),
+                new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
+                new MoveCommand(4),
+                new TurnCommand("left"),
+                new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
+            };
+            testMetrics.CaluculateMetrics(testList);
+            var result = testMetrics.maxNestingLevel;
+            Assert.Equal(2, result);
+        }
 
-
+        [Fact]
+        public void TestRepeats()
+        {
+            Metrics testMetrics = new Metrics();
+            List<Command> testList = new List<Command>
+            {
+                new MoveCommand(4),
+                new MoveCommand(5),
+                new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
+                new MoveCommand(4),
+                new TurnCommand("left"),
+                new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
+            };
+            testMetrics.CaluculateMetrics(testList);
+            var result = testMetrics.repeats;
+            Assert.Equal(3, result);
+        }
+    }
 }
