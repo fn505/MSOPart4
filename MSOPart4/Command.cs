@@ -13,8 +13,9 @@
             public abstract void execute(Character character);
 
 
+        }
 
-         }
+
 
 
         public class MoveCommand : Command
@@ -82,7 +83,6 @@
                 return $"Turn {turnDirection}";
             }
 
-        }
 
         public class RepeatCommand : Command
         {
