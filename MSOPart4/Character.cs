@@ -24,10 +24,10 @@ namespace MSOPart4
             switch (currentDirection) 
             {
               case Direction.North:
-                    if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 + steps]))
+                    if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 - steps]))
                     {
                         grid.clearCell(grid.cells[position.Item1, position.Item2]);
-                        position.Item2 += steps;
+                        position.Item2 -= steps;
                         grid.occupyCell(grid.cells[position.Item1, position.Item2]);
                     }
                     break;
@@ -40,10 +40,10 @@ namespace MSOPart4
                     }
                     break;
                 case Direction.South:
-                    if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 - steps]))
+                    if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 + steps]))
                     {
                         grid.clearCell(grid.cells[position.Item1, position.Item2]);
-                        position.Item2 -= steps;
+                        position.Item2 += steps;
                         grid.occupyCell(grid.cells[position.Item1, position.Item2]);
                     }
                     break;

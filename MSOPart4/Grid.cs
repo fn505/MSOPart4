@@ -18,8 +18,8 @@ namespace MSOPart4
 
         public Grid()
         {
-            width = 5;
-            height = 5;
+            width = 15;
+            height = 15;
             cells = new Cell[width, height];
             Initializegrid();
             occupyCell(cells[0, 0]);
@@ -30,7 +30,7 @@ namespace MSOPart4
 
         public void Initializegrid()
         {
-                for ( int i  = 0; i < width; i++)
+            for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
@@ -54,11 +54,11 @@ namespace MSOPart4
             {
                 throw new Exception();
             }
-           else if (!c.isOccupied) 
-            { 
-             c.isOccupied = true;
+            else if (!c.isOccupied)
+            {
+                c.isOccupied = true;
             }
-           else
+            else
             {
                 throw new InvalidOperationException("Error : Cell is already occupied");
             }
@@ -88,9 +88,9 @@ namespace MSOPart4
        public  bool isOccupied;
         public Cell(int x, int y,  bool isOccupied) 
         {
-          this.x = x;
-          this.y = y;
-          this.isOccupied = isOccupied;
+            this.x = x;
+            this.y = y;
+            this.isOccupied = isOccupied;
         }
     }
 
