@@ -370,7 +370,50 @@ namespace TestProject1
         }
 
 
+        [Fact]
+        public void TestParseFileRepeats()
+        {
+            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
+            programReader.lines = new List<string>
+            {
+                "Repeat 2",
+                "   Move 3",
+                "   Turn right",
+                "   Move 2",
+                "   Repeat 2",
+                "       Move 3",
+                "       Turn right",
+                "       Move 2",
+                //"       Repeat 2",
+                //"           Move 3",
+                //"           Turn right",
+                //"           Move 2",
 
+            };
+
+            programReader.ParseFile(programReader.lines);
+            var result = programReader.commandList;
+            int repeatCount = 0;
+            foreach(Command c in result)
+            {
+                if (c.GetType() == typeof(RepeatCommand))
+                {
+                    repeatCount++;
+                    RepeatCommand repeatCommand = (RepeatCommand)c;
+
+                    foreach (Command rc in repeatCommand.commandList)
+                    {
+                        if (rc.GetType() == typeof(RepeatCommand))
+                            repeatCount++;
+                    }
+                }
+                
+            }
+            Assert.Equal(2, repeatCount);
+
+        
+
+        }
 
         ////trying to execute a command out of the list
 
@@ -437,33 +480,64 @@ namespace TestProject1
         public void TestCommandCount()
         {
             Metrics testMetrics = new Metrics();
-            List<Command> testList = new List<Command>
+            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
+            Character character = new Character();
+            programReader.lines = new List<string>
             {
-                new MoveCommand(4),
-                new MoveCommand(5),
-                new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
-                new MoveCommand(4),
-                new TurnCommand("left"),
-                new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
+                "Move 3",
+                "Turn right",
+                "Move 2"
             };
+            programReader.ParseFile(programReader.lines);
+
+            //List<Command> testList = new List<Command>
+            //{
+            //    new MoveCommand(4),
+            //    new MoveCommand(5),
+            //    new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
+            //    new MoveCommand(4),
+            //    new TurnCommand("left"),
+            //    new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
+            //};
+            List<Command> testList = programReader.commandList;
             testMetrics.CaluculateMetrics(testList);
             var result = testMetrics.commandCount;
-            Assert.Equal(28, result);
+            Assert.Equal(3, result);
         }
 
         [Fact]
         public void TestMaxNestingLevel()
         {
             Metrics testMetrics = new Metrics();
-            List<Command> testList = new List<Command>
+            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
+            Character character = new Character();
+            programReader.lines = new List<string>
             {
-                new MoveCommand(4),
-                new MoveCommand(5),
-                new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
-                new MoveCommand(4),
-                new TurnCommand("left"),
-                new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
+                "Repeat 2",
+                "   Move 3",
+                "   Turn right",
+                "   Move 2",
+                "   Repeat 2",
+                "       Move 3",
+                "       Turn right",
+                "       Move 2",
+                //"       Repeat 2",
+                //"           Move 3",
+                //"           Turn right",
+                //"           Move 2",
+
             };
+            programReader.ParseFile(programReader.lines);
+            List<Command> testList = programReader.commandList;
+            //List<Command> testList = new List<Command>
+            //{
+            //    new MoveCommand(4),
+            //    new MoveCommand(5),
+            //    new RepeatCommand(2, new List<Command> { new RepeatCommand(2, new List<Command> { new TurnCommand("right"), new MoveCommand(8) }), new MoveCommand(8) }),
+            //    new MoveCommand(4),
+            //    new TurnCommand("left"),
+            //    new RepeatCommand(5, new List<Command> { new MoveCommand(4), new MoveCommand(8) })
+            //};
             testMetrics.CaluculateMetrics(testList);
             var result = testMetrics.maxNestingLevel;
             Assert.Equal(2, result);

@@ -15,23 +15,56 @@ public class Metrics
     private int UpdateCommandCount(List<Command> commandList)
     {
         int nestedCommandCount = commandList.Count;
-        foreach (RepeatCommand repeatcommand in commandList)
+        foreach (Command command in commandList) 
         {
-            nestedCommandCount += UpdateCommandCount(repeatcommand.commandList) * repeatcommand.count;
+            if(command.GetType() == typeof(RepeatCommand))
+            {
+                RepeatCommand repeatCommand = (RepeatCommand)command;
+                 nestedCommandCount += UpdateCommandCount(repeatCommand.commandList) * repeatCommand.count;
+            }
+        
         }
+        //foreach (RepeatCommand repeatcommand in commandList)
+        //{
+
+        //    nestedCommandCount += UpdateCommandCount(repeatcommand.commandList) * repeatcommand.count;
+        //}
         return nestedCommandCount;
     }
 
     private int UpdateMaxNestingLevel(List<Command> commandList)
     {
         int nestingLevel = 0;
-        foreach (RepeatCommand repeatcommand in commandList)
+        foreach (Command command in commandList) 
         {
-            if (UpdateMaxNestingLevel(repeatcommand.commandList) + 1 > nestingLevel)
+            if (command.GetType() == typeof(RepeatCommand))
             {
-                nestingLevel = UpdateMaxNestingLevel(repeatcommand.commandList) + 1;
+
+                RepeatCommand repeatCommand = (RepeatCommand)command;
+
+                    if (UpdateMaxNestingLevel(repeatCommand.commandList) + 1 > nestingLevel)
+                    {
+                        nestingLevel = UpdateMaxNestingLevel(repeatCommand.commandList) + 1;
+                    }
+
+                    //UpdateMaxNestingLevel(repeatCommand.commandList);
+                    //nestingLevel++;
+                
+                //if (UpdateMaxNestingLevel(repeatCommand.commandList) + 1 > nestingLevel)
+                //{
+                //    nestingLevel = UpdateMaxNestingLevel(repeatCommand.commandList) + 1;
+                //}
             }
+            //nestingLevel++;
         }
+
+        //foreach (RepeatCommand repeatcommand in commandList)
+        //{
+        //    if (UpdateMaxNestingLevel(repeatcommand.commandList) + 1 > nestingLevel)
+        //    {
+        //        nestingLevel = UpdateMaxNestingLevel(repeatcommand.commandList) + 1;
+        //    }
+        //}
         return nestingLevel;
     }
 
@@ -41,11 +74,26 @@ public class Metrics
     private int UpdateRepeats(List<Command> commandList)
     {
         int nestedRepeatsCount = 0;
-        foreach (RepeatCommand repeatcommand in commandList)
+
+        foreach(Command command in commandList) 
         {
-            nestedRepeatsCount += 1 + UpdateRepeats(repeatcommand.commandList);
+            if (command.GetType() == typeof(RepeatCommand))
+            {
+                RepeatCommand repeatCommand = (RepeatCommand)command;
+                nestedRepeatsCount += 1 + UpdateRepeats(repeatCommand.commandList);
+
+            }
+
+
+
         }
         return nestedRepeatsCount;
+
+        //foreach (RepeatCommand repeatcommand in commandList)
+        //{
+        //    nestedRepeatsCount += 1 + UpdateRepeats(repeatcommand.commandList);
+        //}
+        //return nestedRepeatsCount;
     }
 
     public void CaluculateMetrics(List<Command> commandList)
