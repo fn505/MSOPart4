@@ -431,15 +431,8 @@ namespace TestProject1
             Assert.Equal((3, 2), result1);
             var result2 = character.currentDirection;
             Assert.Equal(Direction.South, result2);
-
-
         }
 
-
-    }
-
-    public class UnitTestMetrics
-    {
         [Fact]
         public void TestCommandCount()
         {
