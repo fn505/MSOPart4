@@ -15,9 +15,9 @@ namespace MSOPart4
         public List<Command> commandList;
         public CommandFactory commandFactory;
 
-       public  ProgramReader()
+       public  ProgramReader(string source)
         {
-            this.source = "C:\\Users\\Nadir\\OneDrive\\Code\\MSOPart4\\MSOPart4\\TestProgram.txt";
+            this.source = source;
             lines = new List<string>(); 
             commandList = new List<Command>();
             commandFactory = new CommandFactory();

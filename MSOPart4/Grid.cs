@@ -18,8 +18,8 @@ namespace MSOPart4
 
         public Grid()
         {
-            width = 5;
-            height = 5;
+            width = 15;
+            height = 15;
             cells = new Cell[width, height];
             Initializegrid();
             occupyCell(cells[0, 0]);

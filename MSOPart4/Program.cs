@@ -38,8 +38,8 @@ public class Program
     }
     public static void Main()
     {
-        string name = "program1";
-        ProgramReader pr = new ProgramReader();
+        string name = "Program1";
+        ProgramReader pr = new ProgramReader("Resources/TestProgram.txt");
         Program p = new Program(pr, name);
         p.execute();
 

@@ -8,7 +8,7 @@ namespace TestProject1
 
     public class UnitTest1
     {
-        //tests for grid.outOfBounds
+        
         [Fact]
         public void TestCellWithinBounds()
         {
@@ -22,7 +22,7 @@ namespace TestProject1
         public void TestCellOutOfBoundsX()
         {
             Grid grid = new Grid();
-            Cell cell = new Cell(10, 5, false);
+            Cell cell = new Cell(15, 5, false);
             bool result = grid.outOfBounds(cell);
             Assert.True(result);
         }
@@ -30,7 +30,7 @@ namespace TestProject1
         public void TestCellOutOfBoundsY()
         {
             Grid grid = new Grid();
-            Cell cell = new Cell(5, 10, false);
+            Cell cell = new Cell(5, 15, false);
             bool result = grid.outOfBounds(cell);
             Assert.True(result);
         }
@@ -44,7 +44,7 @@ namespace TestProject1
             Assert.True(result);
         }
 
-        // tests for grid.occupyCell
+        //// tests for grid.occupyCell
         [Fact]
         public void TestOccupyingCellSuccess()
         {
@@ -67,10 +67,10 @@ namespace TestProject1
         {
             Grid grid = new Grid();
             Assert.Throws<IndexOutOfRangeException>(() =>
-            grid.occupyCell(grid.cells[5, 5])
+            grid.occupyCell(grid.cells[15, 5])
             );
         }
-        // test for grid.ClearCell
+        //// test for grid.ClearCell
         [Fact]
         public void TestClearCellSuccess()
         {
@@ -94,12 +94,12 @@ namespace TestProject1
         {
             Grid grid = new Grid();
             Assert.Throws<IndexOutOfRangeException>(() =>
-            grid.clearCell(grid.cells[5, 5])
+            grid.clearCell(grid.cells[-5, 5])
             );
 
         }
-        // testing Character class
-        //testing character.move
+        //// testing Character class
+        ////testing character.move
 
 
 
@@ -108,11 +108,14 @@ namespace TestProject1
         {
             Character character = new Character();
             character.currentDirection = Direction.North;
+            character.position = (2, 2);
+            character.grid.occupyCell(character.grid.cells[2, 2]);
             character.move(2);
             var result = character.position;
-            Assert.Equal((0, 2), result);
-            Assert.False(character.grid.cells[0, 0].isOccupied);
-            Assert.True(character.grid.cells[0, 2].isOccupied);
+            Assert.Equal((2, 0), result);
+            Assert.False(character.grid.cells[2, 2].isOccupied);
+            Assert.True(character.grid.cells[2, 0].isOccupied);
+
         }
 
         [Fact]
@@ -125,19 +128,18 @@ namespace TestProject1
             Assert.False(character.grid.cells[0, 0].isOccupied);
 
         }
+
+
         [Fact]
         public void TestMoveSouth()
         {
             Character character = new Character();
             character.currentDirection = Direction.South;
-            character.position = (2, 2);
-            character.grid.occupyCell(character.grid.cells[2, 2]);
             character.move(2);
             var result = character.position;
-            Assert.Equal((2, 0), result);
-            Assert.False(character.grid.cells[2, 2].isOccupied);
-            Assert.True(character.grid.cells[2, 0].isOccupied);
-
+            Assert.Equal((0, 2), result);
+            Assert.False(character.grid.cells[0, 0].isOccupied);
+            Assert.True(character.grid.cells[0, 2].isOccupied);
         }
         [Fact]
         public void TestMoveWest()
@@ -160,7 +162,7 @@ namespace TestProject1
             Character character = new Character();
             character.currentDirection = Direction.North;
             Assert.Throws<IndexOutOfRangeException>(() =>
-            character.move(5)
+            character.move(2)
            );
             var result = character.position;
             Assert.Equal((0, 0), result);
@@ -174,7 +176,7 @@ namespace TestProject1
             Character character = new Character();
             character.currentDirection = Direction.East;
             Assert.Throws<IndexOutOfRangeException>(() =>
-            character.move(5)
+            character.move(15)
            );
             var result = character.position;
             Assert.Equal((0, 0), result);
@@ -186,7 +188,7 @@ namespace TestProject1
             Character character = new Character();
             character.currentDirection = Direction.South;
             Assert.Throws<IndexOutOfRangeException>(() =>
-            character.move(5)
+            character.move(15)
            );
             var result = character.position;
             Assert.Equal((0, 0), result);
@@ -199,13 +201,13 @@ namespace TestProject1
             Character character = new Character();
             character.currentDirection = Direction.West;
             Assert.Throws<IndexOutOfRangeException>(() =>
-            character.move(5)
+            character.move(2)
            );
             var result = character.position;
             Assert.Equal((0, 0), result);
         }
 
-        //testing character.turn
+        ////testing character.turn
 
         [Fact]
 
@@ -326,102 +328,114 @@ namespace TestProject1
         [Fact]
         public void TestReadFile()
         {
-            ProgramReader programReader = new ProgramReader();
+            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
             programReader.ReadFile();
 
             var result = programReader.lines;
             Assert.Equal("Repeat 2 times", result[0]);
-  
 
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var accessTry = result[3]; });
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var accessTry = result[4]; });
         }
         //testing programReader.parseFile
-        //[Fact]
-        //public void TestParseFile()
-        //{
-        //    ProgramReader programReader = new ProgramReader();
-        //    programReader.lines = new List<string>
-        //{
-        //    "Move 3",
-        //    "Turn right",
-        //    "Move 2"
-        //};
+        [Fact]
+        public void TestParseFile()
+        {
+            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
+            programReader.lines = new List<string>
+            {
+                "Move 3",
+                "Turn right",
+                "Move 2"
+            };
 
-        //    programReader.ParseFile(programReader.lines);
-        //    var result = programReader.commandList;
+            programReader.ParseFile(programReader.lines);
+            var result = programReader.commandList;
 
-        //    var moveCommand1 = (MoveCommand)result[0];
-        //    var turnCommand = (TurnCommand)result[1];
-        //    var moveCommand2 = (MoveCommand)result[2];
+            var moveCommand1 = (MoveCommand)result[0];
+            var turnCommand = (TurnCommand)result[1];
+            var moveCommand2 = (MoveCommand)result[2];
 
-        //    Assert.Equal(3, result.Count);
+            Assert.Equal(3, result.Count);
 
-        //    Assert.IsType<MoveCommand>(result[0]);
-        //    Assert.Equal(3, moveCommand1.Getsteps());
-        //    Assert.IsType<TurnCommand>(result[1]);
-        //    Assert.Equal("right", turnCommand.GetTurnDirection());
-        //    Assert.IsType<MoveCommand>(result[2]);
-        //    Assert.Equal(2, moveCommand2.Getsteps());
+            Assert.IsType<MoveCommand>(result[0]);
+            Assert.Equal(3, moveCommand1.Getsteps());
+            Assert.IsType<TurnCommand>(result[1]);
+            Assert.Equal("right", turnCommand.GetTurnDirection());
+            Assert.IsType<MoveCommand>(result[2]);
+            Assert.Equal(2, moveCommand2.Getsteps());
 
 
-        //}
+        }
 
 
 
 
         ////trying to execute a command out of the list
 
-        //[Fact]
-        //public void TestExecuteCommandMoveCommand()
-        //{
-        //    ProgramReader pr = new ProgramReader();
-        //    Character character = new Character();
-        //    Grid grid = new Grid();
-        //    pr.ReadFile();
-        //    pr.ParseFile(pr.lines);
-        //    var execommand = pr.commandList[0];
-        //    execommand.execute(character);
-        //    var result = character.position;
-        //    Assert.Equal((2, 0), result);
+        [Fact]
+        public void TestExecuteCommandMoveCommand()
+        {
+            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
+            programReader.lines = new List<string>
+            {
+                "Move 3",
+                "Turn right",
+                "Move 2"
+            };
+            Character character = new Character();
+            programReader.ParseFile(programReader.lines);
+            var exeCommand = programReader.commandList[0];
+            exeCommand.execute(character);
+            var result = character.position;
+            Assert.Equal((3, 0), result);
 
-        //}
-
-
-        //[Fact]
-        //public void TestExecuteCommandTurnCommand()
-        //{
-        //    ProgramReader pr = new ProgramReader();
-        //    Character character = new Character();
-        //    Grid grid = new Grid();
-        //    pr.ReadFile();
-        //    pr.ParseFile(pr.lines);
-        //    var execommand = pr.commandList[1];
-        //    execommand.execute(character);
-        //    var result = character.currentDirection;
-        //    Assert.Equal(Direction.North, result);
-
-        //}
-
-        //[Fact]
-        //public void TestExecuteCommandList()
-        //{
-        //    ProgramReader pr = new ProgramReader();
-        //    Character character = new Character();
-        //    Grid grid = new Grid();
-        //    pr.ReadFile();
-        //    pr.ParseFile(pr.lines);
-
-        //    foreach(Command c in pr.commandList) { c.execute(character); }
-        //    var result1 = character.position;
-        //    Assert.Equal((2,2), result1);
-        //    var result2 = character.currentDirection;
-        //    Assert.Equal(Direction.North, result2);
+        }
 
 
-        //}
+        [Fact]
+        public void TestExecuteCommandTurnCommand()
+        {
+            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
+            Character character = new Character();
+            programReader.lines = new List<string>
+            {
+                "Move 3",
+                "Turn right",
+                "Move 2"
+            };
+            programReader.ParseFile(programReader.lines);
+            var exeCommand = programReader.commandList[1];
+            exeCommand.execute(character);
+            var result = character.currentDirection;
+            Assert.Equal(Direction.South, result);
 
-        
+        }
+
+        [Fact]
+        public void TestExecuteCommandList()
+        {
+            ProgramReader programReader = new ProgramReader("Resources/TestProgram.txt");
+            Character character = new Character();
+            programReader.lines = new List<string>
+            {
+                "Move 3",
+                "Turn right",
+                "Move 2"
+            };
+            programReader.ParseFile(programReader.lines);
+
+            foreach (Command c in programReader.commandList) { c.execute(character); }
+            var result1 = character.position;
+            Assert.Equal((3, 2), result1);
+            var result2 = character.currentDirection;
+            Assert.Equal(Direction.South, result2);
+
+
+        }
+
+
     }
 
 
