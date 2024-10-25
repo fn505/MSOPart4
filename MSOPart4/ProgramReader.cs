@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,17 +85,30 @@ namespace MSOPart4
             List<string> subLines = new List<string>();
             int i = startLine;
 
-            while (i < lines.Count && lines[i].StartsWith("\t")) 
-            {
-                subLines.Add(lines[i].TrimStart('\t')); 
-                i++;
+        
+            int initialIndentation = getIndentationLevel(lines[startLine]);
+
+            for(i = startLine; i < lines.Count; i++)
+            { 
+       
+                var currentLine = lines[i];
+                int currentIndentation = getIndentationLevel(currentLine);
+                if (currentIndentation < initialIndentation)
+                {
+                    break;
+                }
+
+                subLines.Add(currentLine.TrimStart('\t'));
+      
             }
 
             return subLines;
         }
 
-
-  
+        private int getIndentationLevel (string line) 
+        {
+            return line.TakeWhile(c => c == '\t').Count();
         
+        }
     }
 }
