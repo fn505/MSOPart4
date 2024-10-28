@@ -144,6 +144,7 @@ public class Program
         ProgramReader pr = new ProgramReader("Resources/TestProgram.txt");
         Program p = new Program(pr, name);
         p.Execute();
+        Application.Run(new Form1());
 
     }
 
