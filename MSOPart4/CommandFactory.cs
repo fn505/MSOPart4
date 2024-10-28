@@ -14,26 +14,40 @@ namespace MSOPart4
 
         }
 
-        public Command createMoveCommand(int steps)
+        public Command createCommand(CommandType commandType, params object[] parameters)
         {
-            Command command = new MoveCommand( steps);
-            
-            return command;
+            switch (commandType)
+
+            {
+                case CommandType.Move:
+                    if (parameters.Length > 0 && parameters[0] is int steps)
+                    {
+                        return new MoveCommand(steps); ;
+                    }
+                    throw new ArgumentException("Invalid parameters for MoveCommand");
+                case CommandType.Turn:
+                    if(parameters.Length > 0  && parameters[0] is string turnDirection)
+                    {
+                        return new TurnCommand(turnDirection);
+
+                    }
+                    throw new ArgumentException("Invalid parameters for TurnCommand");
+                case CommandType.Repeat:
+                    if(parameters.Length > 1 && parameters[0] is int count && parameters[1] is List<Command> commandList)
+                    {
+                        return new RepeatCommand(count, commandList);
+
+                    }
+                    throw new ArgumentException("Invalid parameters for RepeatCommand");
+                default : throw new ArgumentException("Unknown Command");
+
+            }
         }
-
-        public Command createTurnCommand(string turnDirection)
-        {
-            Command command = new TurnCommand(turnDirection);
-
-            return command;
-        }
-
-        public Command createRepeatCommand(int count, List<Command> commandList)
-        {
-            Command command = new RepeatCommand(count, commandList);
-
-            return command;
-        }
-
+      }
+    public enum CommandType
+    {
+        Move,
+        Turn,
+        Repeat
     }
 }

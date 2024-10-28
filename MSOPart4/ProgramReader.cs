@@ -57,13 +57,13 @@ namespace MSOPart4
                 {
                     case "Move":
                         int steps = Int32.Parse(parts[1]);
-                        var newMoveCommand = commandFactory.createMoveCommand(steps);
+                        var newMoveCommand = commandFactory.createCommand(CommandType.Move,steps);
                         commands.Add(newMoveCommand);
                         break;
 
                     case "Turn":
                         string turnDirection = parts[1];
-                        var newTurnCommand = commandFactory.createTurnCommand(turnDirection);
+                        var newTurnCommand = commandFactory.createCommand(CommandType.Turn,turnDirection);
                         commands.Add(newTurnCommand);
                         break;
 
@@ -72,7 +72,7 @@ namespace MSOPart4
                         List<Command> subCommands = new List<Command>();
                         List<string> subLines = CollectSubLines(lines, lineIndex + 1);
                         ParseFile(subLines, subCommands);
-                        var repeatCommand = commandFactory.createRepeatCommand(count, subCommands);
+                        var repeatCommand = commandFactory.createCommand(CommandType.Repeat,count, subCommands);
                         commands.Add(repeatCommand);
                         lineIndex += subLines.Count; 
                         break;
