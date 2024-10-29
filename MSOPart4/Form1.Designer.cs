@@ -55,9 +55,9 @@
             textBox1.Margin = new Padding(2);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "<output>";
             textBox1.Size = new Size(283, 44);
             textBox1.TabIndex = 3;
-            textBox1.Text = "<output>";
             // 
             // textBox2
             // 
