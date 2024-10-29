@@ -10,16 +10,16 @@ namespace MSOPart4
     public class Grid
     {
 
-        int width;
-        int height;
+       public int width;
+        public int height;
         public Cell[,] cells;
 
 
 
         public Grid()
         {
-            width = 15;
-            height = 15;
+            width = 4;
+            height = 4;
             cells = new Cell[width, height];
             Initializegrid();
             occupyCell(cells[0, 0]);
