@@ -6,7 +6,7 @@ using System.Reflection.PortableExecutable;
 public class Program 
 {
     ProgramReader programReader;
-    Character character;
+    public Character character;
     string name;
     List<Command> commands;
     ProgramDifficulty programLevel;
@@ -144,7 +144,9 @@ public class Program
         ProgramReader pr = new ProgramReader("Resources/TestProgram.txt");
         Program p = new Program(pr, name);
         p.Execute();
-        Application.Run(new Form1());
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new Form1(p));
 
     }
 
