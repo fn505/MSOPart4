@@ -152,10 +152,10 @@ public class Program
         Program p = new Program(pr, name);
          p.Execute();
          p.display.DisplayMetrics();
-    
-        //Application.EnableVisualStyles();
-        //Application.SetCompatibleTextRenderingDefault(false);
-        //Application.Run(new Form1(p));
+
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new Form1(p));
 
     }
 
