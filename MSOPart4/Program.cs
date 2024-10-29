@@ -10,6 +10,10 @@ public class Program
     string name;
     List<Command> commands;
     ProgramDifficulty programLevel;
+    public Metrics programMetrics;
+    Display display;
+
+ 
     public Program(ProgramReader programReader, string name)
     {
         this.programReader = programReader;
@@ -19,7 +23,8 @@ public class Program
         programReader.ReadFile();
         programReader.ParseFile(programReader.lines, programReader.commandList);
         commands = programReader.commandList;
-
+        programMetrics = new Metrics();
+        display = new Display(this);
 
     }
 
@@ -128,25 +133,29 @@ public class Program
             c.execute(character);
         }
 
-        Display(executedCommands, character.position, character.currentDirection);
+        display.DisplayOutput(executedCommands, character.position, character.currentDirection);
   
     }
+    //getMetrics
 
-    public void Display(List<string> strings, (int,int) state, Direction direction)
+    public void getMetrics()
     {
-        string commandsString = string.Join(", ", strings);
-        string endString = commandsString + $". End State {state} facing {direction} ";
-        Console.WriteLine(endString);
+        programMetrics.CaluculateMetrics(commands);
+
     }
+
+
     public static void Main()
     {
         string name = "Program1";
         ProgramReader pr = new ProgramReader("Resources/TestProgram.txt");
         Program p = new Program(pr, name);
-        p.Execute();
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new Form1(p));
+         p.Execute();
+         p.display.DisplayMetrics();
+    
+        //Application.EnableVisualStyles();
+        //Application.SetCompatibleTextRenderingDefault(false);
+        //Application.Run(new Form1(p));
 
     }
 
