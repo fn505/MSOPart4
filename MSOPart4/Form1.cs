@@ -21,7 +21,7 @@ namespace MSOPart4
             gridWidth = program.character.grid.width;
             gridHeight = program.character.grid.height;
             InitializeComponent();
-            panel1.Size = new Size(200, 200);
+            panel1.Size = new Size(300, 300);
         }
 
         //draw grid
@@ -43,6 +43,26 @@ namespace MSOPart4
 
 
             }
+            DrawCharacter(g, cellSize);
+        }
+
+        public void DrawCharacter(Graphics g, int cellSize)
+        {
+            int x = program.character.position.Item1;
+            int y = program.character.position.Item2;
+
+            int xPos = x * cellSize;
+            int yPos = y * cellSize;
+
+            int adjustedCellSize = (int)(cellSize * 0.9);
+
+
+            int offset = (cellSize - adjustedCellSize) / 2;
+
+            Image characterImage = program.character.getCharacterImage();
+            g.DrawImage(characterImage, xPos + offset, yPos + offset, adjustedCellSize, adjustedCellSize);
+
+
         }
 
 
@@ -50,14 +70,48 @@ namespace MSOPart4
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string selectedItem = comboBox1.SelectedItem.ToString();
+
+            switch(selectedItem) 
+            {
+                case "From File":
+                    textBox2.Text = "file select";
+                    break;
+                case "Basic":
+                    textBox2.Text = "basic select";
+                    break;
+                case "Advanced":
+                    textBox2.Text = "advanced select";
+                    break;
+                case "Expert":
+                    textBox2.Text = "expert select";
+                    break;
+                default: 
+                    break;
+                
+
+
+
+
+            }
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            program.Execute();
+            textBox1.Text = program.output;
+            panel1.Invalidate();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
         }
 
-
+        private void button2_Click(object sender, EventArgs e)
+        {
+       
+        }
     }
 }

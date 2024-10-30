@@ -10,7 +10,8 @@ public class Metrics
 
     // The way we have interpreted commandCount is as follows:
     // Every command that has been written outside of repeat-loops is counted once (including the repeat loops themselves)
-    // And every command written inside repeat-loops is counted as many times and the loop is executed
+    // And every command written inside repeat-loops is counted as many times and the loop is
+    // d
     // These values added together create the commandCount
     private int UpdateCommandCount(List<Command> commandList)
     {

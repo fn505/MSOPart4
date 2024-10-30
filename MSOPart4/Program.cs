@@ -11,7 +11,8 @@ public class Program
     List<Command> commands;
     ProgramDifficulty programLevel;
     public Metrics programMetrics;
-    Display display;
+    public Display display;
+    public string output;
 
  
     public Program(ProgramReader programReader, string name)
@@ -19,7 +20,7 @@ public class Program
         this.programReader = programReader;
         character = new Character();
         this.name = name;
-
+        
         programReader.ReadFile();
         programReader.ParseFile(programReader.lines, programReader.commandList);
         commands = programReader.commandList;
@@ -133,7 +134,7 @@ public class Program
             c.execute(character);
         }
 
-        display.DisplayOutput(executedCommands, character.position, character.currentDirection);
+        output = display.DisplayOutputForm(executedCommands, character.position, character.currentDirection);
   
     }
     //getMetrics
@@ -150,12 +151,15 @@ public class Program
         string name = "Program1";
         ProgramReader pr = new ProgramReader("Resources/TestProgram.txt");
         Program p = new Program(pr, name);
-         p.Execute();
-         p.display.DisplayMetrics();
-
+        //p.Execute();
+        p.display.DisplayMetrics();
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
         Application.Run(new Form1(p));
+     
+
+
+
 
     }
 

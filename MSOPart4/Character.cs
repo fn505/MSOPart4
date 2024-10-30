@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,33 @@ namespace MSOPart4
         public (int, int) position;
         public Direction currentDirection;
         public Grid grid;
+        public Image characterImage;
         public Character()
         {
             grid = new Grid();
             position = (0, 0);
             currentDirection = Direction.East;
+            characterImage = getCharacterImage();
+        }
+
+        public Image getCharacterImage()
+        {
+           
+            switch(currentDirection) 
+            {
+                case Direction.North:
+                    return Image.FromFile("Resources/images/characterNorth.png");
+
+                case Direction.East:
+                    return Image.FromFile("Resources/images/characterEast.png");
+                case Direction.South:
+                    return Image.FromFile("Resources/images/characterSouth.png");
+                case Direction.West:
+                    return Image.FromFile("Resources/images/characterWest.png");
+                default:
+                    throw new NotImplementedException();
+
+            }
         }
 
         public void move(int steps)
