@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,8 @@ namespace MSOPart4
         public Program program;
         public int gridWidth;
         public int gridHeight;
+        public ProgramReader newReader;
+        public Program newProgram;
         public Form1(Program program)
         {
             this.program = program;
@@ -65,17 +68,59 @@ namespace MSOPart4
 
         }
 
+        //file explorer
+        public List<string> FileImporter()
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            List<string> newContent = new List<string>();
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    MessageBox.Show(openFileDialog1.FileName);
+
+                filePath = openFileDialog1.FileName;
+
+                //Read the contents of the file into a stream
+                var fileStream = openFileDialog1.OpenFile();
+
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    fileContent = reader.ReadToEnd();
+                }
 
 
+            }
+            newContent.Add(filePath);
+            newContent.Add(fileContent);
+            return newContent;
 
+            //MessageBox.Show(fileContent, "File Content at path: " + filePath, MessageBoxButtons.OK);
+
+
+        }
+
+
+        //conrtol i = tab
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedItem = comboBox1.SelectedItem.ToString();
+     
 
-            switch(selectedItem) 
+            switch (selectedItem)
             {
                 case "From File":
-                    textBox2.Text = "file select";
+                    List<string> fileInfo = FileImporter();
+                    string path =fileInfo.ElementAt(0);
+                    newReader = new ProgramReader(path);
+                    string content = fileInfo.ElementAt(1);
+
+                  
+                    textBox2.Text = content;
                     break;
                 case "Basic":
                     textBox2.Text = "basic select";
@@ -86,9 +131,9 @@ namespace MSOPart4
                 case "Expert":
                     textBox2.Text = "expert select";
                     break;
-                default: 
+                default:
                     break;
-                
+
 
 
 
@@ -99,6 +144,8 @@ namespace MSOPart4
 
         private void button1_Click(object sender, EventArgs e)
         {
+            newProgram = new Program(newReader, "newProgram");
+            program = newProgram;
             program.Execute();
             textBox1.Text = program.output;
             panel1.Invalidate();
@@ -111,7 +158,9 @@ namespace MSOPart4
 
         private void button2_Click(object sender, EventArgs e)
         {
-       
+
         }
+
+  
     }
 }

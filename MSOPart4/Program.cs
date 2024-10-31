@@ -5,7 +5,7 @@ using System.Reflection.PortableExecutable;
 
 public class Program 
 {
-    ProgramReader programReader;
+   public ProgramReader programReader;
     public Character character;
     string name;
     List<Command> commands;
@@ -146,6 +146,7 @@ public class Program
     }
 
 
+    [STAThread]
     public static void Main()
     {
         string name = "Program1";
@@ -153,8 +154,8 @@ public class Program
         Program p = new Program(pr, name);
         //p.Execute();
         p.display.DisplayMetrics();
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
+        //Application.EnableVisualStyles();
+        //Application.SetCompatibleTextRenderingDefault(false);
         Application.Run(new Form1(p));
      
 

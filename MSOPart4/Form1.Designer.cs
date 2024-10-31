@@ -34,6 +34,7 @@
             button1 = new Button();
             button2 = new Button();
             panel1 = new Panel();
+            openFileDialog1 = new OpenFileDialog();
             SuspendLayout();
             // 
             // comboBox1
@@ -95,6 +96,11 @@
             panel1.TabIndex = 1;
             panel1.Paint += panel1_Paint;
             // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            //openFileDialog1.FileOk += openFileDialog1_FileOk;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -109,7 +115,6 @@
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
-            //Resize += button1_Click;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -121,5 +126,6 @@
         private Button button1;
         private Button button2;
         private Panel panel1;
+        private OpenFileDialog openFileDialog1;
     }
 }
