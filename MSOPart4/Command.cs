@@ -108,14 +108,12 @@ namespace MSOPart4
 
         public override void execute(Character character)
         {
-
-            while (count > 0)
+            for (int i = 0; i < count; i++) 
             {
                 foreach (Command command in commandList)
                 {
-                    command.execute(character);
+                    command.execute(character); 
                 }
-                count--;
             }
         }
 
