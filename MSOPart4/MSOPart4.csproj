@@ -9,6 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="Resources\ExamplePrograms\Advanced1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ExamplePrograms\Advanced2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ExamplePrograms\Basic1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ExamplePrograms\Basic2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ExamplePrograms\Expert1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ExamplePrograms\Expert2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\images\characterEast.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

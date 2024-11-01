@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -17,7 +18,7 @@ namespace MSOPart4
         public int gridWidth;
         public int gridHeight;
         public ProgramReader newReader;
-        public Program newProgram;
+   
         public Form1(Program program)
         {
             this.program = program;
@@ -25,7 +26,9 @@ namespace MSOPart4
             gridHeight = program.character.grid.height;
             InitializeComponent();
             panel1.Size = new Size(300, 300);
+
         }
+
 
         //draw grid
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -80,8 +83,8 @@ namespace MSOPart4
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    MessageBox.Show(openFileDialog1.FileName);
+            {
+                MessageBox.Show(openFileDialog1.FileName);
 
                 filePath = openFileDialog1.FileName;
 
@@ -109,45 +112,51 @@ namespace MSOPart4
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedItem = comboBox1.SelectedItem.ToString();
-     
+
 
             switch (selectedItem)
             {
                 case "From File":
                     List<string> fileInfo = FileImporter();
-                    string path =fileInfo.ElementAt(0);
-                    newReader = new ProgramReader(path);
+                    string path = fileInfo.ElementAt(0);
                     string content = fileInfo.ElementAt(1);
-
-                  
                     textBox2.Text = content;
                     break;
                 case "Basic":
-                    textBox2.Text = "basic select";
+                    textBox2.Text = program.getExampleProgram(ProgramDifficulty.basic);
                     break;
                 case "Advanced":
-                    textBox2.Text = "advanced select";
+                    textBox2.Text = program.getExampleProgram(ProgramDifficulty.advanced);
                     break;
                 case "Expert":
-                    textBox2.Text = "expert select";
+                    textBox2.Text = program.getExampleProgram(ProgramDifficulty.expert);
+             
                     break;
                 default:
                     break;
-
-
-
-
-
             }
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            newProgram = new Program(newReader, "newProgram");
-            program = newProgram;
+            try
+            {
+                UpdateTextBox();
+                textBox1.Text = program.output;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error executing commands: " + ex.Message);
+            }
+        }
+        private void UpdateTextBox()
+        {
+            List<string> lines = textBox2.Lines.ToList();
+            List<Command> commands = new List<Command>();
+            program.programReader.ParseFile(lines, commands);
+            program.SetCommands(commands);
             program.Execute();
-            textBox1.Text = program.output;
             panel1.Invalidate();
         }
 
@@ -161,6 +170,6 @@ namespace MSOPart4
 
         }
 
-  
+
     }
 }

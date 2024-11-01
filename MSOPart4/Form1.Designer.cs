@@ -60,6 +60,7 @@
             // 
             // textBox2
             // 
+            textBox2.AcceptsTab = true;
             textBox2.Location = new Point(191, 57);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
@@ -99,7 +100,6 @@
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDialog1";
-            //openFileDialog1.FileOk += openFileDialog1_FileOk;
             // 
             // Form1
             // 

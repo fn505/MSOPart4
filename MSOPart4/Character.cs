@@ -14,6 +14,7 @@ namespace MSOPart4
         public Direction currentDirection;
         public Grid grid;
         public Image characterImage;
+
         public Character()
         {
             grid = new Grid();

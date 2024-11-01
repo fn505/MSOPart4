@@ -29,15 +29,61 @@ public class Program
 
     }
 
-    public enum ProgramDifficulty
+
+    public void SetCommands(List<Command> newCommands)
     {
-        basic,
-        advanced,
-        expert,
+        commands = newCommands;
+    }
+
+    public string getExampleProgram(ProgramDifficulty difficulty)
+    {
+        List<string> basicFiles = new List<string>
+        {
+            "Resources/ExamplePrograms/Basic1.txt"
+            ,"Resources/ExamplePrograms/Basic2.txt"
+        };
+
+        List<string> advancedFiles = new List<string>
+        {
+            "Resources/ExamplePrograms/Advanced1.txt"
+            ,"Resources/ExamplePrograms/Advanced2.txt"
+        };
+
+        List<string> expertFiles = new List<string>
+        {
+            "Resources/ExamplePrograms/Expert1.txt"
+            ,"Resources/ExamplePrograms/Expert2.txt"
+        };
+        String selectedFile = string.Empty;
+        Random r = new Random();
+        switch(difficulty)
+        {
+            case ProgramDifficulty.basic:
+                selectedFile = basicFiles.ElementAt(r.Next(basicFiles.Count));
+                break;
+            case ProgramDifficulty.advanced:
+                selectedFile = advancedFiles.ElementAt(r.Next(advancedFiles.Count));
+                break;
+            case ProgramDifficulty.expert:
+                selectedFile = expertFiles.ElementAt(r.Next(expertFiles.Count));
+                break;
+
+        }
+        return GetLinesFromTextFile(selectedFile);
 
     }
 
-    public void getExampleProgram(ProgramDifficulty difficulty)
+    public string GetLinesFromTextFile(string selectedFile) 
+    {
+        var lines = File.ReadAllLines(selectedFile); 
+        List<String>linesList = lines.ToList();
+        ProgramReader reader = new ProgramReader(null);
+        commands.Clear();
+        reader.ParseFile(linesList, commands); 
+        return string.Join("\r\n", linesList); 
+
+    }
+    public void gettExampleProgram(ProgramDifficulty difficulty)
     {
         List<Command> examples = new List<Command>();
         #region basic example programs
@@ -124,6 +170,8 @@ public class Program
         
     }
 
+
+
     public void Execute()
     {
 
@@ -163,6 +211,13 @@ public class Program
 
 
     }
+
+}
+public enum ProgramDifficulty
+{
+    basic,
+    advanced,
+    expert,
 
 }
 
