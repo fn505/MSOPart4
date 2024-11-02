@@ -142,7 +142,8 @@ namespace MSOPart4
         {
             try
             {
-                UpdateTextBox();
+                
+                UpdateProgram();
                 textBox1.Text = program.output;
             }
             catch (Exception ex)
@@ -150,13 +151,18 @@ namespace MSOPart4
                 MessageBox.Show("Error executing commands: " + ex.Message);
             }
         }
-        private void UpdateTextBox()
+        private void UpdateProgram()
         {
+            // zet de strings in textbox om in een lijst van strings
             List<string> lines = textBox2.Lines.ToList();
             List<Command> commands = new List<Command>();
+            // maak een lijst van commands van lines
             program.programReader.ParseFile(lines, commands);
+            // geef de commands mee aan program
             program.SetCommands(commands);
+           //run de program
             program.Execute();
+            //herteken de grid 
             panel1.Invalidate();
         }
 
