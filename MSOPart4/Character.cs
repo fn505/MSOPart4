@@ -52,7 +52,7 @@ namespace MSOPart4
             return false;
         }
 
-        public bool GridEdgeCheck()
+        public bool GridEdgeCheck(int stepsSize)
         {
             int x = position.Item1;
             int y = position.Item2;
@@ -62,17 +62,15 @@ namespace MSOPart4
             switch (currentDirection)
             {
                 case Direction.North:
-                   
-                    return gridEdge =updatedY <= 0;
+                    return (updatedY -= stepsSize) <= 0;
                 case Direction.East:
-                    return gridEdge = updatedX >= grid.width;
+                    return (updatedX += stepsSize) >= grid.width;
                 case Direction.South:
-                    return gridEdge = updatedY >= grid.height;
+                    return (updatedY += stepsSize) >= grid.height;
                 case Direction.West:
-                    return gridEdge =updatedX <= 0;
+                    return (updatedX -= stepsSize) <= 0;
 
             }
-
             return false;
         }
         public Image getCharacterImage()
@@ -106,23 +104,23 @@ namespace MSOPart4
             switch (currentDirection)
             {
                 case Direction.North:
-                    WallAheadCheck();
-                    GridEdgeCheck();
+                    //WallAheadCheck();
+                    GridEdgeCheck(steps);
                     updatedY -= steps;
                     break;
                 case Direction.East:
-                    WallAheadCheck();
-                    GridEdgeCheck();
+                    //WallAheadCheck();
+                    GridEdgeCheck(steps);
                     updatedX += steps;
                     break;
                 case Direction.South:
-                    WallAheadCheck();
-                    GridEdgeCheck();
+                    //WallAheadCheck();
+                    GridEdgeCheck(steps);
                     updatedY += steps;
                     break;
                 case Direction.West:
-                    WallAheadCheck();
-                    GridEdgeCheck();
+                    //WallAheadCheck();
+                    GridEdgeCheck(steps);
                     updatedX -= steps;
                     break;
             }

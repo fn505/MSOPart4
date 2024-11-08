@@ -199,7 +199,7 @@ namespace MSOPart4
 
         public override void execute(Character character)
         {
-            if(conditionType == ConditionType.WallAhead)
+            /*if(conditionType == ConditionType.WallAhead)
             {
                 while(!character.wallAhead)
                 {
@@ -208,8 +208,8 @@ namespace MSOPart4
                         command.execute(character);
                     }
                 }
-            }
-            else if(conditionType == ConditionType.GridEdge)
+            }*/
+            /*else */if(conditionType == ConditionType.GridEdge)
             {
                 while (!character.gridEdge)
                 {
