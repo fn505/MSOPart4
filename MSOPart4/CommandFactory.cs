@@ -14,6 +14,13 @@ namespace MSOPart4
 
         }
 
+        /// <summary>
+        /// Creating the commands based on the parameters that it is given and throws exceptions
+        /// </summary>
+        /// <param name="commandType"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public Command createCommand(CommandType commandType, params object[] parameters)
         {
             switch (commandType)
@@ -51,6 +58,7 @@ namespace MSOPart4
             }
         }
       }
+
     public enum CommandType
     {
         Move,

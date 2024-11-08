@@ -28,6 +28,12 @@ namespace MSOPart4
             wallAhead = false;  
             gridEdge = false;   
         }
+
+        /// <summary>
+        /// Checks if there is a wall ahead by checking possible surrounding cells
+        /// </summary>
+        /// <param name="stepsSize"></param>
+        /// <returns></returns>
         public bool WallAheadCheck(int stepsSize)
         {
             int x = position.Item1;
@@ -53,7 +59,11 @@ namespace MSOPart4
             return false;
         }
 
-    
+    /// <summary>
+    /// Checks if the cell is on the edge of the grid by checking its bounds
+    /// </summary>
+    /// <param name="stepsSize"></param>
+    /// <returns></returns>
         public bool GridEdgeCheck(int stepsSize)
         {
             int x = position.Item1;
@@ -94,6 +104,12 @@ namespace MSOPart4
             }
         }
 
+        /// <summary>
+        /// Updates the position of the character using occupyCell and clearCell
+        /// It calls the wallAheadCheck and GridEdgeCheck only if their respective ativation booleans are true
+        /// </summary>
+        /// <param name="steps"></param>
+        /// <exception cref="Exception"></exception>
 
         public void move(int steps)
         {
@@ -147,6 +163,10 @@ namespace MSOPart4
             position = (updatedX, updatedY);
             grid.occupyCell(grid.cells[updatedX, updatedY]);
         }
+        /// <summary>
+        /// switches the direction that the player is faces based on the boolean turnDirectionLeft
+        /// </summary>
+        /// <param name="turnDirectionLeft"></param>
         public void turn(bool turnDirectionLeft)
         {
             switch (turnDirectionLeft)
@@ -163,6 +183,9 @@ namespace MSOPart4
     }
 
 
+    /// <summary>
+    /// The directions
+    /// </summary>
     public enum Direction 
     {
         North,

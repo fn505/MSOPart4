@@ -90,6 +90,12 @@ namespace MSOPart4
                 }
             }
         }
+        /// <summary>
+        /// Collecting the sublines of a repeatcommand based on the indentation level
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <param name="startLine"></param>
+        /// <returns></returns>
 
         private List<string> CollectSubLines(List<string> lines, int startLine)
         {
