@@ -17,7 +17,6 @@ namespace MSOPart4
         public Program program;
         public int gridWidth;
         public int gridHeight;
-        public ProgramReader newReader;
 
         public Form1(Program program)
         {
@@ -32,7 +31,7 @@ namespace MSOPart4
 
 
         //draw grid
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void PaintGrid(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
@@ -131,7 +130,7 @@ namespace MSOPart4
 
 
         //conrtol i = tab
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void LoadPrograms(object sender, EventArgs e)
         {
             string selectedItem = comboBox1.SelectedItem.ToString();
 
@@ -195,25 +194,20 @@ namespace MSOPart4
         }
         private void UpdateProgram()
         {
-            // zet de strings in textbox om in een lijst van strings
+            
             List<string> lines = textBox2.Lines.ToList();
             List<Command> commands = new List<Command>();
-            // maak een lijst van commands van lines
+     
             program.programReader.ParseFile(lines, commands);
-            // geef de commands mee aan program
+          
             program.SetCommands(commands);
-            //run de program
+           
             program.Execute();
 
-            //herteken de grid 
             panel1.Invalidate();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
+ 
         private void Metrics_Click(object sender, EventArgs e)
         {
             textBox1.Text = program.display.DisplayMetrics();

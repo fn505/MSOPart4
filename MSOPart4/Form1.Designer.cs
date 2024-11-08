@@ -50,7 +50,7 @@
             comboBox1.Size = new Size(183, 33);
             comboBox1.TabIndex = 2;
             comboBox1.Text = "Load Program";
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            comboBox1.SelectedIndexChanged += LoadPrograms;
             // 
             // textBox1
             // 
@@ -98,7 +98,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(480, 480);
             panel1.TabIndex = 1;
-            panel1.Paint += panel1_Paint;
+            panel1.Paint += PaintGrid;
             // 
             // openFileDialog1
             // 
