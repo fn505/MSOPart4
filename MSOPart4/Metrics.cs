@@ -21,7 +21,9 @@ public class Metrics
             if(command.GetType() == typeof(RepeatCommand))
             {
                 RepeatCommand repeatCommand = (RepeatCommand)command;
-                 nestedCommandCount += UpdateCommandCount(repeatCommand.commandList) * repeatCommand.count;
+                nestedCommandCount += UpdateCommandCount(repeatCommand.commandList) * repeatCommand.count;
+                // Hij zegt hier dat de commandLists van de repeatcommands leeg zijn ):
+                // Misschien ligt het aan het feit dat in ProgramReader, repeatcommands worden toegevoegd als "var" ipv command of iets anders? Will look at it
             }
         
         }
