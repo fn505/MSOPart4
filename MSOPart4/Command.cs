@@ -203,6 +203,7 @@ namespace MSOPart4
             SetCondition();
             if (conditionType == ConditionType.WallAhead)
             {
+                character.wallAheadActive = true;
                 while (!character.wallAhead)
                 {
                    
@@ -212,9 +213,11 @@ namespace MSOPart4
                         command.execute(character);
                     }
                 }
+                character.wallAheadActive = false;
             }
             else if (conditionType == ConditionType.GridEdge)
             {
+                character.gridEdgeActive = true;
                 while (!character.gridEdge)
                 {
               
@@ -224,6 +227,8 @@ namespace MSOPart4
                         command.execute(character);
                     }
                 }
+                character.gridEdgeActive = false;
+
             }
 
 
@@ -252,7 +257,7 @@ namespace MSOPart4
              }
 
             return string.Join(", ", list);
-           // return conditionString;
+          
         }
 
     }

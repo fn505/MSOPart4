@@ -20,6 +20,7 @@ public class Program
     {
         this.programReader = programReader;
         character = new Character();
+        currentExercise = null;
         this.name = name;
         programReader.ReadFile();
         programReader.ParseFile(programReader.lines, programReader.commandList);
