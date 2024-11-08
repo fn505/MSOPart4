@@ -21,6 +21,7 @@ public class Program
         this.programReader = programReader;
         character = new Character();
         this.name = name;
+       // currentExercise = new PathfindingExercise(Progr);
         programReader.ReadFile();
         programReader.ParseFile(programReader.lines, programReader.commandList);
         commands = programReader.commandList;
@@ -198,10 +199,10 @@ public class Program
     public static void Main()
     {
         string name = "Program1";
-        ProgramReader pr = new ProgramReader("Resources/TestProgram.txt");
+        ProgramReader pr = new ProgramReader(null);
         Program p = new Program(pr, name);
         //p.Execute();
-        p.display.DisplayMetrics();
+        //p.display.DisplayMetrics();
         //Application.EnableVisualStyles();
         //Application.SetCompatibleTextRenderingDefault(false);
         Application.Run(new Form1(p));

@@ -14,6 +14,8 @@ namespace MSOPart4
         public Direction currentDirection;
         public Grid grid;
         public Image characterImage;
+        public bool wallAhead;
+        public bool gridEdge;
 
         public Character()
         {
@@ -21,8 +23,51 @@ namespace MSOPart4
             position = (0, 0);
             currentDirection = Direction.East;
             characterImage = getCharacterImage();
+            wallAhead = false;  
+            gridEdge = false;   
+        }
+        public bool WallAheadCheck()
+        {
+            switch (currentDirection)
+            {
+                case Direction.North:
+                    return wallAhead = grid.cells[position.Item1, position.Item2 - 1].isOccupied;
+                case Direction.East:
+                    return wallAhead = grid.cells[position.Item1 + 1, position.Item2].isOccupied;
+                case Direction.South:
+                    return wallAhead =  grid.cells[position.Item1, position.Item2 + 1].isOccupied;
+                case Direction.West:
+                    return wallAhead = grid.cells[position.Item1 - 1, position.Item2].isOccupied;
+
+
+            }
+
+
+            return false;
         }
 
+        public bool GridEdgeCheck()
+        {
+            int x = position.Item1;
+            int y = position.Item2;
+
+            int updatedX = x;
+            int updatedY = y;
+            switch (currentDirection)
+            {
+                case Direction.North:
+                    return gridEdge =updatedY <= 0;
+                case Direction.East:
+                    return gridEdge = updatedX >= grid.width;
+                case Direction.South:
+                    return gridEdge = updatedY >= grid.height;
+                case Direction.West:
+                    return gridEdge =updatedX <= 0;
+
+            }
+
+            return false;
+        }
         public Image getCharacterImage()
         {
            
@@ -30,7 +75,6 @@ namespace MSOPart4
             {
                 case Direction.North:
                     return Image.FromFile("Resources/images/characterNorth.png");
-
                 case Direction.East:
                     return Image.FromFile("Resources/images/characterEast.png");
                 case Direction.South:
@@ -43,44 +87,6 @@ namespace MSOPart4
             }
         }
 
-        //public void move(int steps)
-        //{
-        //    switch (currentDirection) 
-        //    {
-        //      case Direction.North:
-        //            if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 - steps]))
-        //            {
-        //                grid.clearCell(grid.cells[position.Item1, position.Item2]);
-        //                position.Item2 -= steps;
-        //                grid.occupyCell(grid.cells[position.Item1, position.Item2]);
-        //            }
-        //            break;
-        //       case Direction.East:
-        //            if (!grid.outOfBounds(grid.cells[position.Item1 + steps, position.Item2]))
-        //            {
-        //                grid.clearCell(grid.cells[position.Item1, position.Item2]);
-        //                position.Item1 += steps;
-        //                grid.occupyCell(grid.cells[position.Item1, position.Item2]);
-        //            }
-        //            break;
-        //        case Direction.South:
-        //            if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 + steps]))
-        //            {
-        //                grid.clearCell(grid.cells[position.Item1, position.Item2]);
-        //                position.Item2 += steps;
-        //                grid.occupyCell(grid.cells[position.Item1, position.Item2]);
-        //            }
-        //            break;
-        //        case Direction.West:
-        //            if (!grid.outOfBounds(grid.cells[position.Item1 - steps, position.Item2]))
-        //            {
-        //                grid.clearCell(grid.cells[position.Item1, position.Item2]);
-        //                position.Item1 -= steps;
-        //                grid.occupyCell(grid.cells[position.Item1, position.Item2]);
-        //            }
-        //            break;  
-        //    }
-        //}
 
         public void move(int steps)
         {

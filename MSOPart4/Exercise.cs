@@ -1,10 +1,12 @@
 ﻿using MSOPart4;
+using System.Diagnostics;
 using System.Reflection.PortableExecutable;
 
 public abstract class Exercise
 {
     public Grid grid;
     public abstract void LoadGrid(string filePath);
+    public abstract bool HasWon(Character character);
   //  public bool
 }
 
@@ -31,10 +33,18 @@ public class PathfindingExercise : Exercise
                 if (lines[y][x] == 'x')
                 {
                     goalPosition = (x, y);
+                    grid.cells[x,y].isGoal = true;
                 }
                 grid.cells[x, y].isOccupied = (lines[y][x] == '+');
             }
         }
+    }
+
+    public override bool HasWon(Character character) 
+    {
+        if(character.position == goalPosition)
+            return true;
+        return false;
     }
 
    

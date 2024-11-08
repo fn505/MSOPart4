@@ -26,6 +26,7 @@ namespace MSOPart4
             gridHeight = program.character.grid.height;
             InitializeComponent();
             panel1.Size = new Size(300, 300);
+            label1.Text = "";
 
         }
 
@@ -37,10 +38,10 @@ namespace MSOPart4
 
             int cellSize = panel1.Size.Width / gridWidth;
             int currentPosX = program.character.position.Item1;
-            int currentPosY = program.character.position.Item2; 
+            int currentPosY = program.character.position.Item2;
             foreach (Cell cell in program.character.grid.cells)
             {
-                
+
                 Rectangle cellRectangle = new Rectangle(cell.x * cellSize, cell.y * cellSize, cellSize, cellSize);
 
                 if (cell.x == currentPosX && cell.y == currentPosY)
@@ -49,14 +50,18 @@ namespace MSOPart4
                     continue;
                 }
 
-                if (cell.isOccupied )
+                if (cell.isOccupied)
                 {
-                   
+
                     g.FillRectangle(Brushes.DarkOrange, cellRectangle);
-                 
+
                 }
+                else if (cell.isGoal)
+                    g.FillRectangle(Brushes.LightGreen, cellRectangle);
                 else
                 {
+
+
                     g.FillRectangle(Brushes.White, cellRectangle);
                 }
 
@@ -155,17 +160,28 @@ namespace MSOPart4
         {
             try
             {
-            
-                    UpdateProgram();
-                    Debug.WriteLine(program.commands.Count);
-                    textBox1.Text = program.output;
 
-                    if(program.commands.Count == 0)
+                UpdateProgram();
+                // Debug.WriteLine(program.commands.Count);
+                textBox1.Text = program.output;
+                if (program.currentExercise != null)
+                {
+                    if (program.currentExercise.HasWon(program.character))
                     {
-                     textBox1.Text = "";
+                        label1.Text = "You have won";
+                        label1.BackColor = Color.Green;
+                        label1.Size = new Size(50, 10);
                     }
-                  
-                
+
+                }
+                //program.display.DisplayMetrics();
+
+                if (program.commands.Count == 0)
+                {
+                    textBox1.Text = "";
+                }
+
+
 
             }
             catch (Exception ex)
@@ -184,6 +200,7 @@ namespace MSOPart4
             program.SetCommands(commands);
             //run de program
             program.Execute();
+
             //herteken de grid 
             panel1.Invalidate();
         }
@@ -193,9 +210,9 @@ namespace MSOPart4
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Metrics_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = program.display.DisplayMetrics();
         }
 
         private void PathFindingExercise_Click(object sender, EventArgs e)

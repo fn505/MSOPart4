@@ -106,6 +106,7 @@ namespace MSOPart4
       public int x;
        public int y;
        public  bool isOccupied;
+        public bool isGoal;
         public Cell(int x, int y,  bool isOccupied) 
         {
             this.x = x;

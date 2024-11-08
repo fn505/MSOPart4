@@ -13,12 +13,16 @@ public class Display
     
     }
 
-    public void DisplayMetrics()
+    public string DisplayMetrics()
     {
         program.getMetrics();
-        Debug.WriteLine("command count: " + program.programMetrics.commandCount);
+        return ("command count: " + program.programMetrics.commandCount + 
+                   "\r\nmaximum nesting level: " + program.programMetrics.maxNestingLevel 
+                   + "\r\nrepeat commands: " + program.programMetrics.repeats);
 
     }
+
+ 
     public void DisplayOutput(List<string> strings, (int, int) state, Direction direction)
     {
         string commandsString = string.Join(", ", strings);

@@ -32,10 +32,11 @@
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             RunButton = new Button();
-            button2 = new Button();
+            MerticsButton = new Button();
             panel1 = new Panel();
             openFileDialog1 = new OpenFileDialog();
             PathFindingExercise = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // comboBox1
@@ -68,25 +69,25 @@
             textBox2.Size = new Size(290, 455);
             textBox2.TabIndex = 4;
             // 
-            // button1
+            // RunButton
             // 
             RunButton.Location = new Point(203, 10);
-            RunButton.Name = "button1";
+            RunButton.Name = "RunButton";
             RunButton.Size = new Size(111, 33);
             RunButton.TabIndex = 5;
             RunButton.Text = "Run";
             RunButton.UseVisualStyleBackColor = true;
             RunButton.Click += Run_Click;
             // 
-            // button2
+            // MerticsButton
             // 
-            button2.Location = new Point(343, 10);
-            button2.Name = "button2";
-            button2.Size = new Size(111, 33);
-            button2.TabIndex = 6;
-            button2.Text = "Metrics";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            MerticsButton.Location = new Point(343, 10);
+            MerticsButton.Name = "MerticsButton";
+            MerticsButton.Size = new Size(111, 33);
+            MerticsButton.TabIndex = 6;
+            MerticsButton.Text = "Metrics";
+            MerticsButton.UseVisualStyleBackColor = true;
+            MerticsButton.Click += Metrics_Click;
             // 
             // panel1
             // 
@@ -102,23 +103,33 @@
             // 
             openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button3
+            // PathFindingExercise
             // 
             PathFindingExercise.Location = new Point(487, 8);
-            PathFindingExercise.Name = "button3";
-            PathFindingExercise.Size = new Size(217, 35);
+            PathFindingExercise.Name = "PathFindingExercise";
+            PathFindingExercise.Size = new Size(217, 43);
             PathFindingExercise.TabIndex = 7;
             PathFindingExercise.Text = "PathFinding";
             PathFindingExercise.UseVisualStyleBackColor = true;
             PathFindingExercise.Click += PathFindingExercise_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(581, 564);
+            label1.Name = "label1";
+            label1.Size = new Size(59, 25);
+            label1.TabIndex = 8;
+            label1.Text = "label1";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(978, 744);
+            Controls.Add(label1);
             Controls.Add(PathFindingExercise);
-            Controls.Add(button2);
+            Controls.Add(MerticsButton);
             Controls.Add(RunButton);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -136,9 +147,10 @@
         private TextBox textBox1;
         private TextBox textBox2;
         private Button RunButton;
-        private Button button2;
+        private Button MerticsButton;
         private Panel panel1;
         private OpenFileDialog openFileDialog1;
         private Button PathFindingExercise;
+        private Label label1;
     }
 }
