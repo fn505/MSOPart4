@@ -43,43 +43,87 @@ namespace MSOPart4
             }
         }
 
+        //public void move(int steps)
+        //{
+        //    switch (currentDirection) 
+        //    {
+        //      case Direction.North:
+        //            if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 - steps]))
+        //            {
+        //                grid.clearCell(grid.cells[position.Item1, position.Item2]);
+        //                position.Item2 -= steps;
+        //                grid.occupyCell(grid.cells[position.Item1, position.Item2]);
+        //            }
+        //            break;
+        //       case Direction.East:
+        //            if (!grid.outOfBounds(grid.cells[position.Item1 + steps, position.Item2]))
+        //            {
+        //                grid.clearCell(grid.cells[position.Item1, position.Item2]);
+        //                position.Item1 += steps;
+        //                grid.occupyCell(grid.cells[position.Item1, position.Item2]);
+        //            }
+        //            break;
+        //        case Direction.South:
+        //            if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 + steps]))
+        //            {
+        //                grid.clearCell(grid.cells[position.Item1, position.Item2]);
+        //                position.Item2 += steps;
+        //                grid.occupyCell(grid.cells[position.Item1, position.Item2]);
+        //            }
+        //            break;
+        //        case Direction.West:
+        //            if (!grid.outOfBounds(grid.cells[position.Item1 - steps, position.Item2]))
+        //            {
+        //                grid.clearCell(grid.cells[position.Item1, position.Item2]);
+        //                position.Item1 -= steps;
+        //                grid.occupyCell(grid.cells[position.Item1, position.Item2]);
+        //            }
+        //            break;  
+        //    }
+        //}
+
         public void move(int steps)
         {
-            switch (currentDirection) 
+            int x = position.Item1;
+            int y = position.Item2;
+
+            int updatedX = x;
+            int updatedY = y;
+
+            switch (currentDirection)
             {
-              case Direction.North:
-                    if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 - steps]))
-                    {
-                        grid.clearCell(grid.cells[position.Item1, position.Item2]);
-                        position.Item2 -= steps;
-                        grid.occupyCell(grid.cells[position.Item1, position.Item2]);
-                    }
+                case Direction.North:
+                    updatedY -= steps;
                     break;
-               case Direction.East:
-                    if (!grid.outOfBounds(grid.cells[position.Item1 + steps, position.Item2]))
-                    {
-                        grid.clearCell(grid.cells[position.Item1, position.Item2]);
-                        position.Item1 += steps;
-                        grid.occupyCell(grid.cells[position.Item1, position.Item2]);
-                    }
+                case Direction.East:
+                    updatedX += steps;
                     break;
                 case Direction.South:
-                    if (!grid.outOfBounds(grid.cells[position.Item1, position.Item2 + steps]))
-                    {
-                        grid.clearCell(grid.cells[position.Item1, position.Item2]);
-                        position.Item2 += steps;
-                        grid.occupyCell(grid.cells[position.Item1, position.Item2]);
-                    }
+                    updatedY += steps;
                     break;
                 case Direction.West:
-                    if (!grid.outOfBounds(grid.cells[position.Item1 - steps, position.Item2]))
-                    {
-                        grid.clearCell(grid.cells[position.Item1, position.Item2]);
-                        position.Item1 -= steps;
-                        grid.occupyCell(grid.cells[position.Item1, position.Item2]);
-                    }
-                    break;  
+                    updatedX -= steps;
+                    break;
             }
+
+   
+            if (grid.outOfBounds(grid.cells[updatedX, updatedY]))
+            {
+                throw new Exception("Move out of bounds");
+            }
+
+            if (grid.cells[updatedX, updatedY].isOccupied)
+            {
+                throw new Exception("Cell is blocked");
+            }
+
+            if (grid.cells[x, y].isOccupied)
+            {
+                grid.clearCell(grid.cells[x, y]);
+            }
+
+            position = (updatedX, updatedY);
+            grid.occupyCell(grid.cells[updatedX, updatedY]);
         }
         public void turn(string turnDirection)
         {

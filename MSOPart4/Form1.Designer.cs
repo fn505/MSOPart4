@@ -31,10 +31,11 @@
             comboBox1 = new ComboBox();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
-            button1 = new Button();
+            RunButton = new Button();
             button2 = new Button();
             panel1 = new Panel();
             openFileDialog1 = new OpenFileDialog();
+            PathFindingExercise = new Button();
             SuspendLayout();
             // 
             // comboBox1
@@ -69,13 +70,13 @@
             // 
             // button1
             // 
-            button1.Location = new Point(203, 10);
-            button1.Name = "button1";
-            button1.Size = new Size(111, 33);
-            button1.TabIndex = 5;
-            button1.Text = "Run";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            RunButton.Location = new Point(203, 10);
+            RunButton.Name = "button1";
+            RunButton.Size = new Size(111, 33);
+            RunButton.TabIndex = 5;
+            RunButton.Text = "Run";
+            RunButton.UseVisualStyleBackColor = true;
+            RunButton.Click += Run_Click;
             // 
             // button2
             // 
@@ -101,13 +102,24 @@
             // 
             openFileDialog1.FileName = "openFileDialog1";
             // 
+            // button3
+            // 
+            PathFindingExercise.Location = new Point(487, 8);
+            PathFindingExercise.Name = "button3";
+            PathFindingExercise.Size = new Size(217, 35);
+            PathFindingExercise.TabIndex = 7;
+            PathFindingExercise.Text = "PathFinding";
+            PathFindingExercise.UseVisualStyleBackColor = true;
+            PathFindingExercise.Click += PathFindingExercise_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(978, 744);
+            Controls.Add(PathFindingExercise);
             Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(RunButton);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(comboBox1);
@@ -123,9 +135,10 @@
         private ComboBox comboBox1;
         private TextBox textBox1;
         private TextBox textBox2;
-        private Button button1;
+        private Button RunButton;
         private Button button2;
         private Panel panel1;
         private OpenFileDialog openFileDialog1;
+        private Button PathFindingExercise;
     }
 }

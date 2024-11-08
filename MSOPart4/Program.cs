@@ -8,19 +8,19 @@ public class Program
    public ProgramReader programReader;
     public Character character;
     string name;
-    List<Command> commands;
+    public List<Command> commands;
     ProgramDifficulty programLevel;
     public Metrics programMetrics;
     public Display display;
     public string output;
+    public Exercise currentExercise;
 
- 
+
     public Program(ProgramReader programReader, string name)
     {
         this.programReader = programReader;
         character = new Character();
         this.name = name;
-        
         programReader.ReadFile();
         programReader.ParseFile(programReader.lines, programReader.commandList);
         commands = programReader.commandList;

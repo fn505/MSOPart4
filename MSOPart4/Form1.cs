@@ -18,7 +18,7 @@ namespace MSOPart4
         public int gridWidth;
         public int gridHeight;
         public ProgramReader newReader;
-   
+
         public Form1(Program program)
         {
             this.program = program;
@@ -36,18 +36,31 @@ namespace MSOPart4
             Graphics g = e.Graphics;
 
             int cellSize = panel1.Size.Width / gridWidth;
-
-
-            for (int x = 0; x <= gridWidth; x++)
+            int currentPosX = program.character.position.Item1;
+            int currentPosY = program.character.position.Item2; 
+            foreach (Cell cell in program.character.grid.cells)
             {
-                g.DrawLine(Pens.Black, x * cellSize, 0, x * cellSize, gridWidth * cellSize);
+                
+                Rectangle cellRectangle = new Rectangle(cell.x * cellSize, cell.y * cellSize, cellSize, cellSize);
 
-                for (int y = 0; y <= gridHeight; y++)
+                if (cell.x == currentPosX && cell.y == currentPosY)
                 {
-                    g.DrawLine(Pens.Black, 0, y * cellSize, gridHeight * cellSize, y * cellSize);
+                    g.DrawRectangle(Pens.Black, cellRectangle);
+                    continue;
                 }
 
+                if (cell.isOccupied )
+                {
+                   
+                    g.FillRectangle(Brushes.DarkOrange, cellRectangle);
+                 
+                }
+                else
+                {
+                    g.FillRectangle(Brushes.White, cellRectangle);
+                }
 
+                g.DrawRectangle(Pens.Black, cellRectangle);
             }
             DrawCharacter(g, cellSize);
         }
@@ -130,7 +143,7 @@ namespace MSOPart4
                     break;
                 case "Expert":
                     textBox2.Text = program.getExampleProgram(ProgramDifficulty.expert);
-             
+
                     break;
                 default:
                     break;
@@ -138,13 +151,22 @@ namespace MSOPart4
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Run_Click(object sender, EventArgs e)
         {
             try
             {
+            
+                    UpdateProgram();
+                    Debug.WriteLine(program.commands.Count);
+                    textBox1.Text = program.output;
+
+                    if(program.commands.Count == 0)
+                    {
+                     textBox1.Text = "";
+                    }
+                  
                 
-                UpdateProgram();
-                textBox1.Text = program.output;
+
             }
             catch (Exception ex)
             {
@@ -160,7 +182,7 @@ namespace MSOPart4
             program.programReader.ParseFile(lines, commands);
             // geef de commands mee aan program
             program.SetCommands(commands);
-           //run de program
+            //run de program
             program.Execute();
             //herteken de grid 
             panel1.Invalidate();
@@ -176,6 +198,12 @@ namespace MSOPart4
 
         }
 
-
+        private void PathFindingExercise_Click(object sender, EventArgs e)
+        {
+            string filePath = "Resources/grids/grid1.txt";
+            program.currentExercise = new PathfindingExercise(program.character.grid);
+            program.currentExercise.LoadGrid(filePath);
+            panel1.Invalidate();
+        }
     }
 }
