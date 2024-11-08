@@ -76,6 +76,17 @@ namespace MSOPart4
                         commands.Add(repeatCommand);
                         lineIndex += subLines.Count;
                         break;
+                    case "RepeatUntil":
+                        string condition = parts[1];
+                        List<Command> subComs = new List<Command>();
+                        List<string> subLines_ = CollectSubLines(lines, lineIndex + 1);
+                        ParseFile(subLines_, subComs);
+                        var repeatUntilCommand = commandFactory.createCommand(CommandType.RepeatUntil, condition, subComs);
+                        commands.Add(repeatUntilCommand);
+                        lineIndex += subLines_.Count;
+                        break;
+
+
                 }
             }
         }

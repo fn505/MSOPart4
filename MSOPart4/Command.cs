@@ -156,9 +156,10 @@ namespace MSOPart4
 
     public class RepeatUntilCommand : Command
     {
-        Character character;
-        public bool conditionMet;
+       // Character character;
+      //  public bool conditionMet;
         public string conditionString;
+        public ConditionType conditionType;
         
         public List<Command> commandList = new List<Command>();
         public RepeatUntilCommand(string condition, List<Command> commandList)
@@ -183,11 +184,12 @@ namespace MSOPart4
 
             if (conditionString == "WallAhead")
             {
-                conditionMet = character.wallAhead;
+                conditionType = ConditionType.WallAhead;
+                
             }
             else if (conditionString == "GridEdge")
             {
-                conditionMet = character.gridEdge;
+                conditionType = ConditionType.GridEdge;
             }
 
 
@@ -197,37 +199,54 @@ namespace MSOPart4
 
         public override void execute(Character character)
         {
-            for (int i = 0; i < count; i++)
+            if(conditionType == ConditionType.WallAhead)
             {
-                foreach (Command command in commandList)
+                while(!character.wallAhead)
                 {
-                    command.execute(character);
+                    foreach (Command command in commandList)
+                    {
+                        command.execute(character);
+                    }
                 }
             }
+            else if(conditionType == ConditionType.GridEdge)
+            {
+                while (!character.gridEdge)
+                {
+                    foreach (Command command in commandList)
+                    {
+                        command.execute(character);
+                    }
+                }
+            }
+            //while(!conditionMet) { 
+
+            
         }
 
         public override string toString()
         {
 
 
-            List<string> list = new List<string>();
+            //List<string> list = new List<string>();
 
-            for (int i = 0; i < count; i++)
-            {
-                List<string> tempList = new List<string>();
+            //for (int i = 0; i < count; i++)
+            //{
+            //    List<string> tempList = new List<string>();
 
-                foreach (Command command in commandList)
-                {
-                    string temp = command.toString().Trim();
-                    tempList.Add(temp);
-
-
-                }
-                list.Add(string.Join(", ", tempList));
-            }
+            //    foreach (Command command in commandList)
+            //    {
+            //        string temp = command.toString().Trim();
+            //        tempList.Add(temp);
 
 
-            return string.Join(", ", list);
+            //    }
+            //    list.Add(string.Join(", ", tempList));
+            //}
+
+
+            //return string.Join(", ", list);
+            return conditionString;
         }
 
     }

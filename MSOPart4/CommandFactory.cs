@@ -39,6 +39,13 @@ namespace MSOPart4
 
                     }
                     throw new ArgumentException("Invalid parameters for RepeatCommand");
+                case CommandType.RepeatUntil:
+                    if(parameters.Length > 1 && parameters[0] is string conditionString && parameters[1] is List<Command> comList)
+                    {
+                        return new RepeatUntilCommand(conditionString, comList);
+                    }
+                    throw new ArgumentException("Invalid parameters for RepeatUntilCommand");
+
                 default : throw new ArgumentException("Unknown Command");
 
             }
@@ -48,6 +55,7 @@ namespace MSOPart4
     {
         Move,
         Turn,
-        Repeat
+        Repeat,
+        RepeatUntil
     }
 }

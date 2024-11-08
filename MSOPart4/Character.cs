@@ -28,16 +28,22 @@ namespace MSOPart4
         }
         public bool WallAheadCheck()
         {
+            int x = position.Item1;
+            int y = position.Item2;
+
+            int updatedX = x;
+            int updatedY = y;
+
             switch (currentDirection)
             {
                 case Direction.North:
-                    return wallAhead = grid.cells[position.Item1, position.Item2 - 1].isOccupied;
+                    return wallAhead = grid.cells[updatedX, updatedY - 1].isOccupied;
                 case Direction.East:
-                    return wallAhead = grid.cells[position.Item1 + 1, position.Item2].isOccupied;
+                    return wallAhead = grid.cells[updatedX + 1, updatedY].isOccupied;
                 case Direction.South:
-                    return wallAhead =  grid.cells[position.Item1, position.Item2 + 1].isOccupied;
+                    return wallAhead =  grid.cells[updatedX, updatedY + 1].isOccupied;
                 case Direction.West:
-                    return wallAhead = grid.cells[position.Item1 - 1, position.Item2].isOccupied;
+                    return wallAhead = grid.cells[updatedX - 1, updatedY].isOccupied;
 
 
             }
@@ -56,6 +62,7 @@ namespace MSOPart4
             switch (currentDirection)
             {
                 case Direction.North:
+                   
                     return gridEdge =updatedY <= 0;
                 case Direction.East:
                     return gridEdge = updatedX >= grid.width;
@@ -99,15 +106,23 @@ namespace MSOPart4
             switch (currentDirection)
             {
                 case Direction.North:
+                    WallAheadCheck();
+                    GridEdgeCheck();
                     updatedY -= steps;
                     break;
                 case Direction.East:
+                    WallAheadCheck();
+                    GridEdgeCheck();
                     updatedX += steps;
                     break;
                 case Direction.South:
+                    WallAheadCheck();
+                    GridEdgeCheck();
                     updatedY += steps;
                     break;
                 case Direction.West:
+                    WallAheadCheck();
+                    GridEdgeCheck();
                     updatedX -= steps;
                     break;
             }
