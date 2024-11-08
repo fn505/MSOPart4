@@ -7,7 +7,7 @@ public abstract class Exercise
     public Grid grid;
     public abstract void LoadGrid(string filePath);
     public abstract bool HasWon(Character character);
-  //  public bool
+
 }
 
 public class PathfindingExercise : Exercise

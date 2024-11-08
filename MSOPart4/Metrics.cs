@@ -27,11 +27,7 @@ public class Metrics
             }
         
         }
-        //foreach (RepeatCommand repeatcommand in commandList)
-        //{
 
-        //    nestedCommandCount += UpdateCommandCount(repeatcommand.commandList) * repeatcommand.count;
-        //}
         return nestedCommandCount;
     }
 
@@ -50,24 +46,10 @@ public class Metrics
                         nestingLevel = UpdateMaxNestingLevel(repeatCommand.commandList) + 1;
                     }
 
-                    //UpdateMaxNestingLevel(repeatCommand.commandList);
-                    //nestingLevel++;
-                
-                //if (UpdateMaxNestingLevel(repeatCommand.commandList) + 1 > nestingLevel)
-                //{
-                //    nestingLevel = UpdateMaxNestingLevel(repeatCommand.commandList) + 1;
-                //}
             }
-            //nestingLevel++;
+         
         }
 
-        //foreach (RepeatCommand repeatcommand in commandList)
-        //{
-        //    if (UpdateMaxNestingLevel(repeatcommand.commandList) + 1 > nestingLevel)
-        //    {
-        //        nestingLevel = UpdateMaxNestingLevel(repeatcommand.commandList) + 1;
-        //    }
-        //}
         return nestingLevel;
     }
 
@@ -92,11 +74,6 @@ public class Metrics
         }
         return nestedRepeatsCount;
 
-        //foreach (RepeatCommand repeatcommand in commandList)
-        //{
-        //    nestedRepeatsCount += 1 + UpdateRepeats(repeatcommand.commandList);
-        //}
-        //return nestedRepeatsCount;
     }
 
     public void CaluculateMetrics(List<Command> commandList)

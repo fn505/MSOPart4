@@ -12,6 +12,7 @@ public class Display
     
     }
 
+
     public string DisplayMetrics()
     {
         program.getMetrics();
