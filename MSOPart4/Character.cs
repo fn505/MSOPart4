@@ -16,6 +16,8 @@ namespace MSOPart4
         public Image characterImage;
         public bool wallAhead;
         public bool gridEdge;
+        public bool wallAheadActive;
+        public bool gridEdgeActive;
 
         public Character()
         {
@@ -64,9 +66,9 @@ namespace MSOPart4
                 case Direction.North:
                     return gridEdge = (updatedY -= stepsSize) == 0;
                 case Direction.East:
-                    return gridEdge =(updatedX += stepsSize) == grid.width;
+                    return gridEdge =(updatedX += stepsSize) == (grid.width -1);
                 case Direction.South:
-                    return gridEdge = (updatedY += stepsSize) == grid.height;
+                    return gridEdge = (updatedY += stepsSize) == (grid.height -1);
                 case Direction.West:
                     return gridEdge =(updatedX -= stepsSize) == 0;
 
@@ -104,23 +106,24 @@ namespace MSOPart4
             switch (currentDirection)
             {
                 case Direction.North:
-                    WallAheadCheck(steps);
-                    GridEdgeCheck(steps);
+                    if (wallAheadActive) { WallAheadCheck(steps); }
+                    if (gridEdgeActive) { GridEdgeCheck(steps); }
                     updatedY -= steps;
                     break;
                 case Direction.East:
-                    WallAheadCheck(steps);
-                    GridEdgeCheck(steps);
+                    if (wallAheadActive) { WallAheadCheck(steps); }
+                    if (gridEdgeActive) { GridEdgeCheck(steps); }
+                    
                     updatedX += steps;
                     break;
                 case Direction.South:
-                    WallAheadCheck(steps);
-                    GridEdgeCheck(steps);
+                    if (wallAheadActive) { WallAheadCheck(steps); }
+                    if (gridEdgeActive) { GridEdgeCheck(steps); }
                     updatedY += steps;
                     break;
                 case Direction.West:
-                    WallAheadCheck(steps);
-                    GridEdgeCheck(steps);
+                    if (wallAheadActive) { WallAheadCheck(steps); }
+                    if (gridEdgeActive) { GridEdgeCheck(steps); }
                     updatedX -= steps;
                     break;
             }
