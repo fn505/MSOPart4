@@ -31,9 +31,11 @@
             comboBox1 = new ComboBox();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
-            button1 = new Button();
+            RunButton = new Button();
             button2 = new Button();
             panel1 = new Panel();
+            openFileDialog1 = new OpenFileDialog();
+            PathFindingExercise = new Button();
             SuspendLayout();
             // 
             // comboBox1
@@ -41,79 +43,90 @@
             comboBox1.DropDownWidth = 120;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Basic", "Advanced", "Expert", "From File" });
-            comboBox1.Location = new Point(8, 7);
-            comboBox1.Margin = new Padding(2);
+            comboBox1.Location = new Point(11, 12);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(129, 23);
+            comboBox1.Size = new Size(183, 33);
             comboBox1.TabIndex = 2;
             comboBox1.Text = "Load Program";
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(55, 240);
-            textBox1.Margin = new Padding(2);
+            textBox1.Location = new Point(12, 518);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "<output>";
-            textBox1.Size = new Size(283, 44);
+            textBox1.Size = new Size(471, 89);
             textBox1.TabIndex = 3;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(142, 34);
-            textBox2.Margin = new Padding(2);
+            textBox2.AcceptsTab = true;
+            textBox2.Location = new Point(191, 57);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(196, 182);
+            textBox2.Size = new Size(290, 455);
             textBox2.TabIndex = 4;
             // 
             // button1
             // 
-            button1.Location = new Point(142, 6);
-            button1.Margin = new Padding(2);
-            button1.Name = "button1";
-            button1.Size = new Size(78, 20);
-            button1.TabIndex = 5;
-            button1.Text = "Run";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            RunButton.Location = new Point(203, 10);
+            RunButton.Name = "button1";
+            RunButton.Size = new Size(111, 33);
+            RunButton.TabIndex = 5;
+            RunButton.Text = "Run";
+            RunButton.UseVisualStyleBackColor = true;
+            RunButton.Click += Run_Click;
             // 
             // button2
             // 
-            button2.Location = new Point(240, 6);
-            button2.Margin = new Padding(2);
+            button2.Location = new Point(343, 10);
             button2.Name = "button2";
-            button2.Size = new Size(78, 20);
+            button2.Size = new Size(111, 33);
             button2.TabIndex = 6;
             button2.Text = "Metrics";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // panel1
             // 
+            panel1.BackColor = Color.FromArgb(224, 224, 224);
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Location = new Point(353, 34);
-            panel1.Margin = new Padding(2);
+            panel1.Location = new Point(487, 57);
             panel1.Name = "panel1";
-            panel1.Size = new Size(200, 200);
+            panel1.Size = new Size(480, 480);
             panel1.TabIndex = 1;
             panel1.Paint += panel1_Paint;
             // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // button3
+            // 
+            PathFindingExercise.Location = new Point(487, 8);
+            PathFindingExercise.Name = "button3";
+            PathFindingExercise.Size = new Size(217, 35);
+            PathFindingExercise.TabIndex = 7;
+            PathFindingExercise.Text = "PathFinding";
+            PathFindingExercise.UseVisualStyleBackColor = true;
+            PathFindingExercise.Click += PathFindingExercise_Click;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(577, 295);
+            ClientSize = new Size(978, 744);
+            Controls.Add(PathFindingExercise);
             Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(RunButton);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(comboBox1);
             Controls.Add(panel1);
-            Margin = new Padding(2);
             Name = "Form1";
             Text = "Form1";
-            Resize += button1_Click;
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -122,8 +135,10 @@
         private ComboBox comboBox1;
         private TextBox textBox1;
         private TextBox textBox2;
-        private Button button1;
+        private Button RunButton;
         private Button button2;
         private Panel panel1;
+        private OpenFileDialog openFileDialog1;
+        private Button PathFindingExercise;
     }
 }

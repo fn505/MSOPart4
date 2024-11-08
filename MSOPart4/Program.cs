@@ -5,21 +5,22 @@ using System.Reflection.PortableExecutable;
 
 public class Program 
 {
-    ProgramReader programReader;
+   public ProgramReader programReader;
     public Character character;
     string name;
-    List<Command> commands;
+    public List<Command> commands;
     ProgramDifficulty programLevel;
     public Metrics programMetrics;
-    Display display;
+    public Display display;
+    public string output;
+    public Exercise currentExercise;
 
- 
+
     public Program(ProgramReader programReader, string name)
     {
         this.programReader = programReader;
         character = new Character();
         this.name = name;
-
         programReader.ReadFile();
         programReader.ParseFile(programReader.lines, programReader.commandList);
         commands = programReader.commandList;
@@ -28,15 +29,61 @@ public class Program
 
     }
 
-    public enum ProgramDifficulty
+
+    public void SetCommands(List<Command> newCommands)
     {
-        basic,
-        advanced,
-        expert,
+        commands = newCommands;
+    }
+
+    public string getExampleProgram(ProgramDifficulty difficulty)
+    {
+        List<string> basicFiles = new List<string>
+        {
+            "Resources/ExamplePrograms/Basic1.txt"
+            ,"Resources/ExamplePrograms/Basic2.txt"
+        };
+
+        List<string> advancedFiles = new List<string>
+        {
+            "Resources/ExamplePrograms/Advanced1.txt"
+            ,"Resources/ExamplePrograms/Advanced2.txt"
+        };
+
+        List<string> expertFiles = new List<string>
+        {
+            "Resources/ExamplePrograms/Expert1.txt"
+            ,"Resources/ExamplePrograms/Expert2.txt"
+        };
+        String selectedFile = string.Empty;
+        Random r = new Random();
+        switch(difficulty)
+        {
+            case ProgramDifficulty.basic:
+                selectedFile = basicFiles.ElementAt(r.Next(basicFiles.Count));
+                break;
+            case ProgramDifficulty.advanced:
+                selectedFile = advancedFiles.ElementAt(r.Next(advancedFiles.Count));
+                break;
+            case ProgramDifficulty.expert:
+                selectedFile = expertFiles.ElementAt(r.Next(expertFiles.Count));
+                break;
+
+        }
+        return GetLinesFromTextFile(selectedFile);
 
     }
 
-    public void getExampleProgram(ProgramDifficulty difficulty)
+    public string GetLinesFromTextFile(string selectedFile) 
+    {
+        var lines = File.ReadAllLines(selectedFile); 
+        List<String>linesList = lines.ToList();
+        ProgramReader reader = new ProgramReader(null);
+        commands.Clear();
+        reader.ParseFile(linesList, commands); 
+        return string.Join("\r\n", linesList); 
+
+    }
+    public void gettExampleProgram(ProgramDifficulty difficulty)
     {
         List<Command> examples = new List<Command>();
         #region basic example programs
@@ -123,6 +170,8 @@ public class Program
         
     }
 
+
+
     public void Execute()
     {
 
@@ -133,7 +182,7 @@ public class Program
             c.execute(character);
         }
 
-        display.DisplayOutput(executedCommands, character.position, character.currentDirection);
+        output = display.DisplayOutputForm(executedCommands, character.position, character.currentDirection);
   
     }
     //getMetrics
@@ -145,19 +194,30 @@ public class Program
     }
 
 
+    [STAThread]
     public static void Main()
     {
         string name = "Program1";
         ProgramReader pr = new ProgramReader("Resources/TestProgram.txt");
         Program p = new Program(pr, name);
-         p.Execute();
-         p.display.DisplayMetrics();
-
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
+        //p.Execute();
+        p.display.DisplayMetrics();
+        //Application.EnableVisualStyles();
+        //Application.SetCompatibleTextRenderingDefault(false);
         Application.Run(new Form1(p));
+     
+
+
+
 
     }
+
+}
+public enum ProgramDifficulty
+{
+    basic,
+    advanced,
+    expert,
 
 }
 

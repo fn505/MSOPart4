@@ -26,6 +26,13 @@ public class Display
         Debug.WriteLine(endString);
     }
 
+    public string DisplayOutputForm(List<string> strings, (int, int) state, Direction direction)
+    {
+        string commandsString = string.Join(", ", strings);
+        string endString = commandsString + $". End State {state} facing {direction} ";
+         return endString;
+    }
+
 }
 
 

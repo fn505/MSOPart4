@@ -55,34 +55,43 @@ namespace MSOPart4
 
     public class TurnCommand : Command
     {
-        public string turnDirection;
+        public bool turnDirectionLeft;
+        private string turnDirectionString;
 
         public TurnCommand(string turnDirection)
         {
-            this.turnDirection = turnDirection;
+            turnDirectionString = turnDirection;
+
+            if (turnDirection == "left")
+            turnDirectionLeft = true;
+            if (turnDirection == "right")
+            turnDirectionLeft = false;
         }
 
         public override bool isValid()
         {
-            if (turnDirection == "left" || turnDirection == "right")
+            if (turnDirectionString == "left" || turnDirectionString == "right")
                 return true;
-            return false;
+            else return false;
         }
 
-        public string GetTurnDirection()
+        public bool GetTurnDirection()
         {
-            return turnDirection;
+            return turnDirectionLeft;
         }
 
         public override void execute(Character character)
         {
             if (isValid())
-                character.turn(turnDirection);
+                character.turn(turnDirectionLeft);
         }
 
         public override string toString()
         {
-            return $"Turn {turnDirection} ";
+            if (turnDirectionLeft)
+                return "Turn left";
+            else return "Turn right";
+            //return $"Turn {turnDirectionLeft} ";
         }
     }
 
@@ -108,14 +117,12 @@ namespace MSOPart4
 
         public override void execute(Character character)
         {
-
-            while (count > 0)
+            for (int i = 0; i < count; i++) 
             {
                 foreach (Command command in commandList)
                 {
-                    command.execute(character);
+                    command.execute(character); 
                 }
-                count--;
             }
         }
 

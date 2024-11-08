@@ -40,7 +40,27 @@ namespace MSOPart4
 
         }
 
-  
+        //test
+        //public void LoadGrid(string filePath)
+        //{
+        //    string[] lines = File.ReadAllLines(filePath);
+
+        //    if (lines.Length != height || lines.Length != width)
+        //    {
+        //        throw new Exception("The grid file does not match the grid dimensions ");
+        //    }
+
+        //    for (int x = 0; x < width; x++)
+        //    {
+        //        for (int y = 0; y < height; y++)
+        //        {
+        //            cells[x, y].isOccupied = (lines[y][x] == '+');
+        //        }
+        //    }
+
+        //}
+
+
         public bool outOfBounds(Cell c)
         {
             if (c.x < 0 || c.x >= width || c.y < 0|| c.y >= height)

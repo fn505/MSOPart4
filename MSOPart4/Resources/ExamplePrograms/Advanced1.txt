@@ -1,0 +1,5 @@
+﻿Repeat 2 times
+	Move 2
+	Turn right
+Turn left
+

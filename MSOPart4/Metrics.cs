@@ -10,7 +10,8 @@ public class Metrics
 
     // The way we have interpreted commandCount is as follows:
     // Every command that has been written outside of repeat-loops is counted once (including the repeat loops themselves)
-    // And every command written inside repeat-loops is counted as many times and the loop is executed
+    // And every command written inside repeat-loops is counted as many times and the loop is
+    // d
     // These values added together create the commandCount
     private int UpdateCommandCount(List<Command> commandList)
     {
@@ -20,7 +21,9 @@ public class Metrics
             if(command.GetType() == typeof(RepeatCommand))
             {
                 RepeatCommand repeatCommand = (RepeatCommand)command;
-                 nestedCommandCount += UpdateCommandCount(repeatCommand.commandList) * repeatCommand.count;
+                nestedCommandCount += UpdateCommandCount(repeatCommand.commandList) * repeatCommand.count;
+                // Hij zegt hier dat de commandLists van de repeatcommands leeg zijn ):
+                // Misschien ligt het aan het feit dat in ProgramReader, repeatcommands worden toegevoegd als "var" ipv command of iets anders? Will look at it
             }
         
         }
