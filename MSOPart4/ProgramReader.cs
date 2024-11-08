@@ -74,7 +74,7 @@ namespace MSOPart4
                         ParseFile(subLines, subCommands);
                         var repeatCommand = commandFactory.createCommand(CommandType.Repeat,count, subCommands);
                         commands.Add(repeatCommand);
-                        lineIndex += subLines.Count; 
+                        lineIndex += subLines.Count;
                         break;
                 }
             }

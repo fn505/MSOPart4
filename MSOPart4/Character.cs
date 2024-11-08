@@ -81,14 +81,14 @@ namespace MSOPart4
                     break;  
             }
         }
-        public void turn(string turnDirection)
+        public void turn(bool turnDirectionLeft)
         {
-            switch (turnDirection)
+            switch (turnDirectionLeft)
             {
-                case "right":
+                case false:
                     currentDirection = (Direction)(((int)currentDirection + 1) % 4);
                     break;
-                case "left":
+                case true:
                     currentDirection = (Direction)(((int)currentDirection + 3) % 4);
                     break;
             }
