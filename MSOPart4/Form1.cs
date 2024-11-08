@@ -43,29 +43,33 @@ namespace MSOPart4
             {
 
                 Rectangle cellRectangle = new Rectangle(cell.x * cellSize, cell.y * cellSize, cellSize, cellSize);
-
-                if (cell.x == currentPosX && cell.y == currentPosY)
+                if(program.currentExercise != null)
                 {
+                    if (cell.x == currentPosX && cell.y == currentPosY)
+                    {
+                        g.DrawRectangle(Pens.Black, cellRectangle);
+                        continue;
+                    }
+
+                    if (cell.isOccupied)
+                    {
+
+                        g.FillRectangle(Brushes.DarkOrange, cellRectangle);
+
+                    }
+                    else if (cell.isGoal)
+                        g.FillRectangle(Brushes.LightGreen, cellRectangle);
+                    else
+                    {
+
+
+                        g.FillRectangle(Brushes.White, cellRectangle);
+                    }
+
                     g.DrawRectangle(Pens.Black, cellRectangle);
-                    continue;
                 }
-
-                if (cell.isOccupied)
-                {
-
-                    g.FillRectangle(Brushes.DarkOrange, cellRectangle);
-
-                }
-                else if (cell.isGoal)
-                    g.FillRectangle(Brushes.LightGreen, cellRectangle);
-                else
-                {
-
-
-                    g.FillRectangle(Brushes.White, cellRectangle);
-                }
-
                 g.DrawRectangle(Pens.Black, cellRectangle);
+
             }
             DrawCharacter(g, cellSize);
         }
@@ -220,6 +224,12 @@ namespace MSOPart4
             string filePath = "Resources/grids/grid1.txt";
             program.currentExercise = new PathfindingExercise(program.character.grid);
             program.currentExercise.LoadGrid(filePath);
+            panel1.Invalidate();
+        }
+
+        private void Reset_Click(object sender, EventArgs e)
+        {
+            program.Reset();
             panel1.Invalidate();
         }
     }

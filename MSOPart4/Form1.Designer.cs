@@ -37,6 +37,7 @@
             openFileDialog1 = new OpenFileDialog();
             PathFindingExercise = new Button();
             label1 = new Label();
+            ResetButton = new Button();
             SuspendLayout();
             // 
             // comboBox1
@@ -122,11 +123,22 @@
             label1.TabIndex = 8;
             label1.Text = "label1";
             // 
+            // button1
+            // 
+            ResetButton.Location = new Point(717, 14);
+            ResetButton.Name = "button1";
+            ResetButton.Size = new Size(180, 33);
+            ResetButton.TabIndex = 9;
+            ResetButton.Text = "Reset";
+            ResetButton.UseVisualStyleBackColor = true;
+            ResetButton.Click += Reset_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(978, 744);
+            Controls.Add(ResetButton);
             Controls.Add(label1);
             Controls.Add(PathFindingExercise);
             Controls.Add(MerticsButton);
@@ -152,5 +164,6 @@
         private OpenFileDialog openFileDialog1;
         private Button PathFindingExercise;
         private Label label1;
+        private Button ResetButton;
     }
 }

@@ -3,9 +3,9 @@
 using MSOPart4;
 using System.Reflection.PortableExecutable;
 
-public class Program 
+public class Program
 {
-   public ProgramReader programReader;
+    public ProgramReader programReader;
     public Character character;
     string name;
     public List<Command> commands;
@@ -21,7 +21,6 @@ public class Program
         this.programReader = programReader;
         character = new Character();
         this.name = name;
-       // currentExercise = new PathfindingExercise(Progr);
         programReader.ReadFile();
         programReader.ParseFile(programReader.lines, programReader.commandList);
         commands = programReader.commandList;
@@ -30,7 +29,14 @@ public class Program
 
     }
 
-
+    public void Reset()
+    {
+        character.grid.clearCell(character.grid.cells[character.position.Item1, character.position.Item2]);
+        character.position = (0, 0);
+        character.currentDirection = Direction.East;
+        commands.Clear();
+        currentExercise = null;
+    }
     public void SetCommands(List<Command> newCommands)
     {
         commands = newCommands;
@@ -57,7 +63,7 @@ public class Program
         };
         String selectedFile = string.Empty;
         Random r = new Random();
-        switch(difficulty)
+        switch (difficulty)
         {
             case ProgramDifficulty.basic:
                 selectedFile = basicFiles.ElementAt(r.Next(basicFiles.Count));
@@ -74,14 +80,14 @@ public class Program
 
     }
 
-    public string GetLinesFromTextFile(string selectedFile) 
+    public string GetLinesFromTextFile(string selectedFile)
     {
-        var lines = File.ReadAllLines(selectedFile); 
-        List<String>linesList = lines.ToList();
+        var lines = File.ReadAllLines(selectedFile);
+        List<String> linesList = lines.ToList();
         ProgramReader reader = new ProgramReader(null);
         commands.Clear();
-        reader.ParseFile(linesList, commands); 
-        return string.Join("\r\n", linesList); 
+        reader.ParseFile(linesList, commands);
+        return string.Join("\r\n", linesList);
 
     }
     public void gettExampleProgram(ProgramDifficulty difficulty)
@@ -128,9 +134,9 @@ public class Program
         {
                 new MoveCommand(5),
                 new RepeatCommand(2, new List<Command> {
-                        new RepeatCommand(2, new List<Command> { 
+                        new RepeatCommand(2, new List<Command> {
                             new TurnCommand("right"),
-                            new MoveCommand(1) }), 
+                            new MoveCommand(1) }),
                             new MoveCommand(1) }),
                 new TurnCommand("left"),
 
@@ -147,28 +153,28 @@ public class Program
         })};
 
         List<List<Command>> expertList = new List<List<Command>>();
-        expertList .Add(expert1);
+        expertList.Add(expert1);
         expertList.Add(expert2);
 
         #endregion 
-        switch (difficulty) 
+        switch (difficulty)
         {
             case ProgramDifficulty.basic:
-               
+
                 Random r = new Random();
-                examples = basicList.ElementAt(r.Next(basicList.Count-1));
+                examples = basicList.ElementAt(r.Next(basicList.Count - 1));
                 break;
             case ProgramDifficulty.advanced:
-                r = new Random();   
-                examples = advancedList.ElementAt(r.Next(advancedList.Count-1));
-                break;
-            case ProgramDifficulty.expert: 
                 r = new Random();
-                examples = expertList.ElementAt(r.Next(expertList.Count-1));
+                examples = advancedList.ElementAt(r.Next(advancedList.Count - 1));
+                break;
+            case ProgramDifficulty.expert:
+                r = new Random();
+                examples = expertList.ElementAt(r.Next(expertList.Count - 1));
                 break;
         }
         commands = examples;
-        
+
     }
 
 
@@ -183,11 +189,10 @@ public class Program
             c.execute(character);
         }
 
-        output = display.DisplayOutputForm(executedCommands, character.position, character.currentDirection);
-  
-    }
-    //getMetrics
+        output = display.DisplayOutput(executedCommands, character.position, character.currentDirection);
 
+    }
+  
     public void getMetrics()
     {
         programMetrics.CaluculateMetrics(commands);
@@ -201,12 +206,8 @@ public class Program
         string name = "Program1";
         ProgramReader pr = new ProgramReader(null);
         Program p = new Program(pr, name);
-        //p.Execute();
-        //p.display.DisplayMetrics();
-        //Application.EnableVisualStyles();
-        //Application.SetCompatibleTextRenderingDefault(false);
         Application.Run(new Form1(p));
-     
+
 
 
 

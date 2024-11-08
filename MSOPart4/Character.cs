@@ -26,7 +26,7 @@ namespace MSOPart4
             wallAhead = false;  
             gridEdge = false;   
         }
-        public bool WallAheadCheck()
+        public bool WallAheadCheck(int stepsSize)
         {
             int x = position.Item1;
             int y = position.Item2;
@@ -34,41 +34,41 @@ namespace MSOPart4
             int updatedX = x;
             int updatedY = y;
 
+
             switch (currentDirection)
             {
                 case Direction.North:
-                    return wallAhead = grid.cells[updatedX, updatedY - 1].isOccupied;
+
+                    return wallAhead = grid.cells[updatedX, (updatedY -= stepsSize) - 1].isOccupied;
                 case Direction.East:
-                    return wallAhead = grid.cells[updatedX + 1, updatedY].isOccupied;
+                    return wallAhead = grid.cells[(updatedX += stepsSize) + 1, updatedY].isOccupied;
                 case Direction.South:
-                    return wallAhead =  grid.cells[updatedX, updatedY + 1].isOccupied;
+                    return wallAhead = grid.cells[updatedX, (updatedY += stepsSize) + 1].isOccupied;
                 case Direction.West:
-                    return wallAhead = grid.cells[updatedX - 1, updatedY].isOccupied;
-
-
+                    return wallAhead = grid.cells[(updatedX -= stepsSize) - 1, updatedY].isOccupied;
             }
-
 
             return false;
         }
 
+    
         public bool GridEdgeCheck(int stepsSize)
         {
             int x = position.Item1;
             int y = position.Item2;
-
+     
             int updatedX = x;
             int updatedY = y;
             switch (currentDirection)
             {
                 case Direction.North:
-                    return (updatedY -= stepsSize) <= 0;
+                    return gridEdge = (updatedY -= stepsSize) == 0;
                 case Direction.East:
-                    return (updatedX += stepsSize) >= grid.width;
+                    return gridEdge =(updatedX += stepsSize) == grid.width;
                 case Direction.South:
-                    return (updatedY += stepsSize) >= grid.height;
+                    return gridEdge = (updatedY += stepsSize) == grid.height;
                 case Direction.West:
-                    return (updatedX -= stepsSize) <= 0;
+                    return gridEdge =(updatedX -= stepsSize) == 0;
 
             }
             return false;
@@ -104,22 +104,22 @@ namespace MSOPart4
             switch (currentDirection)
             {
                 case Direction.North:
-                    //WallAheadCheck();
+                    WallAheadCheck(steps);
                     GridEdgeCheck(steps);
                     updatedY -= steps;
                     break;
                 case Direction.East:
-                    //WallAheadCheck();
+                    WallAheadCheck(steps);
                     GridEdgeCheck(steps);
                     updatedX += steps;
                     break;
                 case Direction.South:
-                    //WallAheadCheck();
+                    WallAheadCheck(steps);
                     GridEdgeCheck(steps);
                     updatedY += steps;
                     break;
                 case Direction.West:
-                    //WallAheadCheck();
+                    WallAheadCheck(steps);
                     GridEdgeCheck(steps);
                     updatedX -= steps;
                     break;

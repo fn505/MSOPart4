@@ -10,7 +10,7 @@ namespace MSOPart4
     public class Grid
     {
 
-       public int width;
+        public int width;
         public int height;
         public Cell[,] cells;
 
@@ -40,25 +40,7 @@ namespace MSOPart4
 
         }
 
-        //test
-        //public void LoadGrid(string filePath)
-        //{
-        //    string[] lines = File.ReadAllLines(filePath);
-
-        //    if (lines.Length != height || lines.Length != width)
-        //    {
-        //        throw new Exception("The grid file does not match the grid dimensions ");
-        //    }
-
-        //    for (int x = 0; x < width; x++)
-        //    {
-        //        for (int y = 0; y < height; y++)
-        //        {
-        //            cells[x, y].isOccupied = (lines[y][x] == '+');
-        //        }
-        //    }
-
-        //}
+    
 
 
         public bool outOfBounds(Cell c)
@@ -72,7 +54,7 @@ namespace MSOPart4
         {
             if (outOfBounds(c))
             {
-                throw new Exception();
+                throw new InvalidOperationException("Error : Move is out of bounds");
             }
             else if (!c.isOccupied)
             {
@@ -88,7 +70,7 @@ namespace MSOPart4
         {
             if (outOfBounds(c))
             {
-                throw new Exception();
+                throw new InvalidOperationException("Error : Cell is out of bounds");
             }
             else if (c.isOccupied)
             {
@@ -103,9 +85,9 @@ namespace MSOPart4
 
     public class Cell
     {
-      public int x;
-       public int y;
-       public  bool isOccupied;
+        public int x;
+        public int y;
+        public bool isOccupied;
         public bool isGoal;
         public Cell(int x, int y,  bool isOccupied) 
         {
